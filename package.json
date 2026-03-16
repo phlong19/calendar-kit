@@ -1,0 +1,17 @@
+{
+  "name": "calendar-kit-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Open-source calendar kit workspace",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "dev": "pnpm --filter @calendar-kit/docs dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
