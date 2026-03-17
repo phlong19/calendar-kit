@@ -13,20 +13,27 @@ export function PickerFooter({
   draftPreview,
   canApply,
   onClear,
-  onApply
+  onApply,
 }: Readonly<PickerFooterProps>) {
   return (
-    <div className="flex items-center justify-between gap-2 border-t border-border pt-3">
+    <div className="flex items-center justify-between gap-2 border-t border-border p-3">
       <p className="text-sm text-muted-foreground">
         {draftPreview || "Select a start and end date"}
       </p>
-      <Button type="button" variant="ghost" className="h-9" onClick={onClear}>
-        Clear
-      </Button>
+      <div className="flex flex-row gap-3 items-center">
+        <Button type="button" variant="ghost" className="h-9" onClick={onClear}>
+          Clear
+        </Button>
 
-      <Button type="button" disabled={!canApply} className="h-9" onClick={onApply}>
-        Apply
-      </Button>
+        <Button
+          type="button"
+          disabled={!canApply}
+          className="h-9"
+          onClick={onApply}
+        >
+          Apply
+        </Button>
+      </div>
     </div>
   );
 }

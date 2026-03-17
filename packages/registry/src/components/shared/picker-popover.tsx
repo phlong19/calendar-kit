@@ -38,7 +38,7 @@ export function PickerPopover({
       <PopoverContent
         align="start"
         sideOffset={8}
-        className="calendar-kit-theme w-(--radix-popover-trigger-width) min-w-max rounded-xl border border-border bg-popover p-3 text-popover-foreground shadow-lg"
+        className="calendar-kit-theme w-(--radix-popover-trigger-width) min-w-max border border-border bg-popover text-popover-foreground shadow-lg"
       >
         {children}
       </PopoverContent>

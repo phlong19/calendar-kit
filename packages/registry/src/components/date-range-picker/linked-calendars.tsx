@@ -27,12 +27,13 @@ export function LinkedCalendars({
   onDraftRangeChange
 }: Readonly<LinkedCalendarsProps>) {
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-row">
       {Array.from({ length: count }, (_, index) => {
         const calendarMonth = getLinkedMonth(baseMonth, index);
 
         return (
-          <Card key={index} className="border border-border bg-muted/30 p-3">
+          <div key={index} className="not-last:border-r not-last:border-border">
+          <Card  className="ring-0 bg-muted/30 p-3">
             <MonthYearControls
               month={calendarMonth}
               fromYear={fromYear}
@@ -51,7 +52,7 @@ export function LinkedCalendars({
                 header: "hidden"
               }}
             />
-          </Card>
+          </Card></div>
         );
       })}
     </div>

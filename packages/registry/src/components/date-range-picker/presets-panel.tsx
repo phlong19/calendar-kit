@@ -36,8 +36,8 @@ export function PresetsPanel({
   onSaveCustomPreset
 }: Readonly<PresetsPanelProps>) {
   return (
-    <Card className="w-52 border border-border bg-muted/30 p-3">
-      <ScrollArea className="max-h-72 pr-1">
+    <Card className="w-52 ring-0 bg-muted/30 border-r border-border pr-3 rounded-none p-0">
+      <ScrollArea className="flex-1 pr-1">
         <div className="space-y-1">
           {presets.map((preset) => (
             <Button
@@ -58,7 +58,7 @@ export function PresetsPanel({
       </ScrollArea>
 
       {enableCustomPresets ? (
-        <div className="mt-3 flex items-center gap-2 border-t border-border pt-2">
+        <div className="flex items-center gap-2">
           <Input
             id="custom-preset-label"
             value={customPresetLabel}
@@ -71,7 +71,7 @@ export function PresetsPanel({
             disabled={!isCompleteRange(draftRange) || !customPresetLabel.trim()}
             size="sm"
             variant="outline"
-            className="h-8 px-2 text-xs"
+            className="h-8 px-2 text-xs rounded-md"
             onClick={onSaveCustomPreset}
           >
             Save

@@ -37,7 +37,7 @@ interface CalendarGridProps {
   variant?: CalendarVariant;
 }
 
-const shellStyles = cva("calendar-kit-theme w-fit rounded-xl border bg-card p-4 text-card-foreground shadow-sm", {
+const shellStyles = cva("calendar-kit-theme w-fit rounded-xl ring-0 bg-card p-4 text-card-foreground shadow-sm", {
   variants: {
     variant: {
       default: "border-border",
