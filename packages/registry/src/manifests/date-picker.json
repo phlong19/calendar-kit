@@ -1,0 +1,6 @@
+{
+  "name": "date-picker",
+  "files": ["components/date-picker", "components/calendar", "components/shared", "components/ui"],
+  "dependencies": ["date-fns", "@radix-ui/react-popover", "@radix-ui/react-select"],
+  "registry": "calendar-kit"
+}

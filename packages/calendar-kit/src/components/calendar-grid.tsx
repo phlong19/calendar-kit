@@ -15,8 +15,8 @@ import type { KeyboardEvent } from "react";
 import type { Locale } from "date-fns";
 
 import type { CalendarClassNames, CalendarSlot, CalendarVariant } from "../types";
-import { cn } from "../utils/cn";
-import { getCalendarWeeks, getWeekdayLabels, toDateKey } from "../utils/date";
+import { cn } from "../lib/utils";
+import { getCalendarWeeks, getWeekdayLabels, toDateKey } from "../lib/date";
 
 type SelectionState = {
   selected: boolean;
@@ -37,11 +37,11 @@ interface CalendarGridProps {
   variant?: CalendarVariant;
 }
 
-const shellStyles = cva("w-fit rounded-xl border bg-white p-4 text-slate-900 shadow-sm", {
+const shellStyles = cva("calendar-kit-theme w-fit rounded-xl border bg-card p-4 text-card-foreground shadow-sm", {
   variants: {
     variant: {
-      default: "border-slate-200",
-      outline: "border-slate-400",
+      default: "border-border",
+      outline: "border-border/80",
       ghost: "border-transparent bg-transparent shadow-none"
     }
   },
@@ -51,13 +51,13 @@ const shellStyles = cva("w-fit rounded-xl border bg-white p-4 text-slate-900 sha
 });
 
 const navButtonStyles = cva(
-  "inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
+  "inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
-        default: "hover:bg-slate-100",
-        outline: "border border-slate-300 hover:bg-slate-50",
-        ghost: "hover:bg-slate-100"
+        default: "hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-border hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground"
       }
     },
     defaultVariants: {
@@ -67,16 +67,16 @@ const navButtonStyles = cva(
 );
 
 const dayButtonStyles = cva(
-  "inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2",
+  "inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
-        default: "hover:bg-slate-100",
-        outline: "border border-slate-300 hover:bg-slate-50",
-        ghost: "hover:bg-slate-100"
+        default: "hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-border hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground"
       },
       outside: {
-        true: "text-slate-400",
+        true: "text-muted-foreground",
         false: ""
       },
       disabled: {
@@ -84,15 +84,15 @@ const dayButtonStyles = cva(
         false: ""
       },
       selected: {
-        true: "bg-slate-900 text-white hover:bg-slate-900",
+        true: "bg-primary text-primary-foreground hover:bg-primary",
         false: ""
       },
       inRange: {
-        true: "bg-slate-200 text-slate-900",
+        true: "bg-accent text-accent-foreground",
         false: ""
       },
       rangeEdge: {
-        true: "bg-slate-900 text-white hover:bg-slate-900",
+        true: "bg-primary text-primary-foreground hover:bg-primary",
         false: ""
       }
     },
@@ -100,7 +100,7 @@ const dayButtonStyles = cva(
       {
         selected: true,
         inRange: true,
-        class: "bg-slate-900 text-white"
+        class: "bg-primary text-primary-foreground"
       }
     ],
     defaultVariants: {
@@ -254,7 +254,7 @@ export function CalendarGrid({
                 key={`${label}-${index}`}
                 className={getSlotClass(
                   "weekDay",
-                  "h-9 w-9 text-center text-xs font-medium text-slate-500",
+                  "h-9 w-9 text-center text-xs font-medium text-muted-foreground",
                   classNames
                 )}
                 scope="col"

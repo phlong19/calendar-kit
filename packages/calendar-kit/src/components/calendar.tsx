@@ -4,8 +4,8 @@ import { isSameDay, startOfMonth } from "date-fns";
 import { useCallback } from "react";
 
 import type { CalendarProps } from "../types";
-import { isDateDisabled, normalizeDate } from "../utils/date";
-import { useControllableState } from "../utils/use-controllable-state";
+import { isDateDisabled, normalizeDate } from "../lib/date";
+import { useControllableState } from "../lib/use-controllable-state";
 import { CalendarGrid } from "./calendar-grid";
 
 export function Calendar({

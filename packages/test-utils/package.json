@@ -1,0 +1,15 @@
+{
+  "name": "@calendar-kit/test-utils",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit --pretty false",
+    "lint": "tsc -p tsconfig.json --noEmit --pretty false",
+    "typecheck": "tsc -p tsconfig.json --noEmit --pretty false",
+    "test": "echo 'No test-utils tests yet'"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

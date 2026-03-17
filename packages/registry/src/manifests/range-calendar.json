@@ -1,0 +1,6 @@
+{
+  "name": "range-calendar",
+  "files": ["components/range-calendar"],
+  "dependencies": ["date-fns"],
+  "registry": "calendar-kit"
+}

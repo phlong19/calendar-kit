@@ -47,3 +47,48 @@ export interface RangeCalendarProps extends CalendarBaseProps {
   defaultValue?: DateRange | null;
   onValueChange?: (value: DateRange | null) => void;
 }
+
+export interface PickerBaseProps {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  autoApply?: boolean;
+  fromYear?: number;
+  toYear?: number;
+  displayFormat?: string;
+}
+
+export interface DatePickerProps extends PickerBaseProps {
+  value?: Date | null;
+  defaultValue?: Date | null;
+  onValueChange?: (value: Date | null) => void;
+}
+
+export interface RangePreset {
+  id: string;
+  label: string;
+  value: DateRange;
+}
+
+export type BuiltInPresetId =
+  | "today"
+  | "yesterday"
+  | "this-week"
+  | "last-week"
+  | "this-month"
+  | "last-month"
+  | "last-3-months"
+  | "last-6-months";
+
+export type BuiltInPresetLabels = Partial<Record<BuiltInPresetId, string>>;
+
+export interface DateRangePickerProps extends PickerBaseProps {
+  value?: DateRange | null;
+  defaultValue?: DateRange | null;
+  onValueChange?: (value: DateRange | null) => void;
+  numberOfMonths?: number;
+  presets?: RangePreset[];
+  presetLabels?: BuiltInPresetLabels;
+  enableCustomPresets?: boolean;
+  customPresetStorageKey?: string;
+}

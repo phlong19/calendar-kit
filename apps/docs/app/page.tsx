@@ -6,11 +6,11 @@ export default function HomePage() {
       <header className="mb-10">
         <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">calendar-kit</p>
         <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">
-          Single + Range React Calendar
+          Single + Range Input Date Pickers
         </h1>
         <p className="mt-3 max-w-2xl text-base text-slate-600">
-          Open-source, shadcn-like calendar primitives with controlled and uncontrolled APIs.
-          v1 is source-first with manual integration docs.
+          Open-source, shadcn-like calendar primitives plus committed-value picker wrappers.
+          The range picker supports linked dual calendars, presets, and autoApply.
         </p>
       </header>
 
@@ -22,7 +22,7 @@ export default function HomePage() {
           Install dependencies and import components from the package workspace or source.
         </p>
         <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-slate-100">
-{`pnpm add calendar-kit date-fns class-variance-authority clsx tailwind-merge`}
+{`pnpm add @calendar-kit/registry date-fns class-variance-authority clsx tailwind-merge`}
         </pre>
       </section>
     </main>

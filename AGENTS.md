@@ -1,126 +1,606 @@
-# agent.md
+````md
+# agents.md
 
-## Goal
-Build input-triggered date picker wrappers on top of existing inline calendar primitives.
+## Product Direction
 
-Keep:
-- `Calendar` as low-level single-date inline primitive
-- `RangeCalendar` as low-level range inline primitive
+This project should **not** be finalized as a traditional styled npm UI library.
 
-Add:
+Even if the repo is internally organized as packages and built with tools like `tsup`, the **public product direction** should be:
+
+- a **registry-first open-code component system**
+- targeting **Next.js / React / shadcn users**
+- focused on **calendar and date picker UX**
+- designed for **easy source ownership and customization after install**
+
+In short:
+
+**internal architecture can be package-based, but public distribution should be open-code / registry-based.**
+
+---
+
+## Why not a traditional styled npm lib
+
+A normal styled npm package is not the best fit for this audience.
+
+### Problems:
+- shadcn users generally want to **own the component code**
+- they often expect to **edit UI directly**
+- shipping a fixed visual system reduces flexibility
+- using our own design language makes the picker feel less native inside their app
+- styling and composition can clash with project-specific Tailwind tokens and local patterns
+
+This project should not try to become “another black-box React date picker package”.
+
+---
+
+## Why not raw copy-paste only
+
+Pure copy-paste/open-source snippets are also not enough.
+
+### Problems:
+- users may already have heavily customized local shadcn primitives
+- their `Button`, `Popover`, `Input`, spacing, variants, and tokens may differ
+- blindly depending on their local component implementations can cause visual mismatch or breakage
+- support becomes harder if the picker assumes too much about the host app
+
+So the product should not rely on “paste this and hope your local setup matches”.
+
+---
+
+## Final distribution model
+
+Ship this as a **registry-based open-code component product**.
+
+### Public distribution:
+- remote registry
+- installable components
+- source files added into the user’s app
+- editable after install
+- shadcn-style usage model
+
+### Internal repo structure:
+- package-based architecture is still encouraged
+- shared logic can live in internal packages
+- registry output can be generated from internal packages
+
+This gives:
+- maintainable internal architecture
+- customizable public consumption model
+
+---
+
+## Architecture principle
+
+Use this split:
+
+### Internal
+- packages for logic, shared utilities, state, formatting, and installable source generation
+
+### External
+- users consume installable source code, not a locked styled widget package
+
+The repo may contain packages such as:
+- `packages/core`
+- `packages/registry`
+- optional `packages/cli`
+- `apps/docs`
+
+But users should primarily consume the project through the registry/open-code flow.
+
+---
+
+## Styling strategy
+
+The styling direction should be:
+
+**theme-adaptive, shadcn-compatible, mostly self-contained UI**
+
+Not:
+- a hardcoded custom design system
+- a strict dependency on the user’s edited local shadcn primitives
+
+### Important rule
+Do **not** couple the picker too tightly to the host app’s exact local implementations of:
+- `Button`
+- `Popover`
+- `Input`
+- custom variant names
+- private wrapper components
+
+Because many shadcn users already modified those files, and relying on them too heavily increases mismatch risk.
+
+---
+
+## Recommended UI packaging strategy
+
+Use a **hybrid self-contained approach**.
+
+### Ship self-contained picker-specific source for:
+- date picker shell
+- range picker shell
+- calendar header
+- presets panel
+- footer/apply controls
+- picker-specific helpers
+
+### Reuse common conventions where reasonable:
+- Tailwind utility classes
+- `cn` helper if appropriate
+- CSS variable tokens when possible
+- common React/Next/shadcn-friendly patterns
+
+### Avoid:
+- depending on user-specific button/popover variant contracts
+- requiring exact local primitive implementations
+- shipping a fully isolated proprietary design language
+
+The installed components should work predictably, while still being easy for users to edit.
+
+---
+
+## UX/Product Positioning
+
+Position the project as:
+
+**A production-grade calendar registry for shadcn apps — open code, easy to theme, stable UX.**
+
+Do not position it as:
+- a generic styled npm date picker library
+- a random copy-paste snippet collection
+- a full design system
+
+The main value is:
+- better UX
+- better date/range behavior
+- cleaner API
+- installable open source ownership
+- compatibility with shadcn-oriented workflows
+
+---
+
+## API Philosophy
+
+The public API should stay minimal and safe.
+
+### Key rule
+Public `value` represents only the **committed value**.
+
+### Public event
+Expose:
+- `onValueChange`
+
+Only when a new value is actually committed.
+
+### Internal-only behavior
+Keep these as internal implementation details:
+- draft selection state
+- apply flow
+- commit source
+- interaction metadata
+- transient popup session logic
+
+This component should behave as a **committed value control**, not as a public interaction state machine.
+
+---
+
+## Date Picker Plan Alignment
+
+This project direction applies directly to:
 - `DatePicker`
 - `DateRangePicker`
 
-## Core product direction
-This component should expose a **simple committed-value API**.
+while preserving:
+- `Calendar`
+- `RangeCalendar`
 
-Public props state only matters for the **final committed value**.  
-All in-progress interactions should be handled by **internal component state**.
+as low-level inline primitives.
 
-## Public API rules
-Expose only:
-- `value`
-- `defaultValue`
-- `onValueChange`
-- `open`
-- `defaultOpen`
-- `onOpenChange`
-- config props like `autoApply`, `fromYear`, `toYear`, `displayFormat`, `numberOfMonths`, `presets`, `enableCustomPresets`, `customPresetStorageKey`
+The wrappers should:
+- use internal draft state
+- expose only committed value updates
+- remain visually editable after registry install
+- avoid hard dependence on the host app’s customized shadcn primitives
 
-Do **not** expose:
-- `onApply`
-- `onDraftChange`
-- callback meta like `source`, `phase`, `autoApplied`
+---
 
-`onValueChange` must fire **only when a new value is committed**.
+## Project Structure
 
-## State model
-Internal state handles:
-- draft selection
-- popup session state
-- apply flow
-- preset interactions
-- linked month navigation
-- temporary hover/partial range behavior
+Use a monorepo, but clearly separate **internal architecture** from **public distribution**.
 
-External `value` represents only the **committed value**.
+### Recommended structure
 
-Behavior:
-- `autoApply=false`: user edits internal draft, commit only on Apply
-- `autoApply=true`: commit immediately when selection is complete/valid
+```txt
+calendar-kit/
+├─ apps/
+│  └─ docs/                     # Next.js docs, demos, showcase, install guide
+│
+├─ packages/
+│  ├─ core/                     # internal logic only
+│  │  ├─ src/
+│  │  │  ├─ date/               # date math, range helpers, formatting helpers
+│  │  │  ├─ selection/          # selection logic / commit helpers
+│  │  │  ├─ presets/            # built-in preset generation
+│  │  │  ├─ navigation/         # linked month navigation logic
+│  │  │  ├─ types/              # internal shared types
+│  │  │  └─ index.ts
+│  │  ├─ package.json
+│  │  └─ tsconfig.json
+│  │
+│  ├─ registry/                 # source files that users actually install
+│  │  ├─ src/
+│  │  │  ├─ components/
+│  │  │  │  ├─ date-picker/
+│  │  │  │  │  ├─ date-picker.tsx
+│  │  │  │  │  ├─ date-picker-input.tsx
+│  │  │  │  │  └─ index.ts
+│  │  │  │  ├─ date-range-picker/
+│  │  │  │  │  ├─ date-range-picker.tsx
+│  │  │  │  │  ├─ presets-panel.tsx
+│  │  │  │  │  ├─ picker-footer.tsx
+│  │  │  │  │  ├─ linked-calendars.tsx
+│  │  │  │  │  └─ index.ts
+│  │  │  │  ├─ calendar/
+│  │  │  │  │  ├─ calendar.tsx
+│  │  │  │  │  ├─ calendar-header.tsx
+│  │  │  │  │  └─ index.ts
+│  │  │  │  └─ range-calendar/
+│  │  │  │     ├─ range-calendar.tsx
+│  │  │  │     └─ index.ts
+│  │  │  ├─ hooks/              # installable hooks if needed
+│  │  │  ├─ lib/                # installable helpers used by registry components
+│  │  │  ├─ styles/             # optional shared class maps/tokens
+│  │  │  ├─ manifests/          # registry JSON definitions
+│  │  │  └─ index.ts
+│  │  ├─ package.json
+│  │  └─ tsconfig.json
+│  │
+│  ├─ tooling/                  # internal scripts/generators/validation
+│  │  ├─ src/
+│  │  │  ├─ build-registry.ts
+│  │  │  ├─ validate-manifests.ts
+│  │  │  └─ sync-doc-examples.ts
+│  │  └─ package.json
+│  │
+│  ├─ config/                   # shared tsconfig/eslint/tailwind presets
+│  │  ├─ tsconfig.base.json
+│  │  ├─ eslint/
+│  │  └─ package.json
+│  │
+│  └─ test-utils/               # shared test helpers/mocks/render wrappers
+│     ├─ src/
+│     └─ package.json
+│
+├─ turbo.json
+├─ pnpm-workspace.yaml
+├─ package.json
+└─ README.md
+````
 
-## UX requirements
-### DatePicker
-- read-only input trigger
-- opens popover on click/focus
-- formatted display value
-- month/year dropdown navigation
-- default year window: current year ±10
+---
 
-### DateRangePicker
-- read-only input trigger
-- popover with:
-  - presets column
-  - two linked calendars by default
-  - footer with Apply/Clear when `autoApply=false`
-- default `numberOfMonths = 2`
-- linked calendars must always remain consecutive
+## Project Structure Principles
 
-## Presets
-Built-ins:
-- Today
-- Yesterday
-- This week
-- Last week
-- This month
-- Last month
-- Last 3 months
-- Last 6 months
+### `apps/docs`
 
-Custom presets:
-- add-only in v1
-- persist in `localStorage`
-- hydrate on mount
-- no rename/delete UI in v1
+This is the main product surface early on.
 
-Default storage key:
-- `calendar-kit:custom-range-presets:v1`
+Use it for:
 
-## Navigation rules
-For linked dual-month range picker:
-- left calendar defines base month
-- right calendar is always base month + 1
-- changing left month/year updates base month directly
-- changing right month/year recalculates base month as right month - 1
-- never allow overlap or non-consecutive month layout
+* demos
+* install docs
+* API docs
+* playground examples
+* behavior showcase
+* controlled/uncontrolled examples
+* presets and autoApply docs
 
-## Constraints
-- input typing/parsing is out of scope for v1
-- reference design is inspiration, not pixel-perfect target
-- value type remains `Date`
-- no timezone abstraction in this iteration
+This app is also the dogfooding environment.
 
-## Implementation order
-1. Build `DateRangePicker` wrapper first
-2. Add internal draft/commit model
-3. Add linked month/year dropdown navigation
-4. Add presets + custom preset persistence
-5. Build `DatePicker`
-6. Update docs/demo
-7. Add tests
-8. Verify existing `Calendar` and `RangeCalendar` remain unchanged
+### `packages/core`
 
-## Testing focus
-Cover:
-- commit-only `onValueChange`
-- `autoApply=false` vs `autoApply=true`
-- linked month behavior
-- preset commit behavior
-- custom preset persistence/hydration
-- popover open/close behavior
-- regression safety for existing inline primitives
+This is internal logic only.
 
-## Important principle
-Keep the public API minimal and hard to misuse.
+It should contain:
 
-This is a **committed value component**, not a public interaction state machine.
+* date math
+* range normalization
+* linked month calculations
+* preset generators
+* formatting helpers
+* internal selection/session logic
+
+Important:
+do **not** make this the main public product in v1.
+
+Think of it as the engine under the hood.
+
+### `packages/registry`
+
+This is the most important package for public distribution.
+
+It contains the source files users install into their own app.
+
+This package should hold:
+
+* `DatePicker`
+* `DateRangePicker`
+* `Calendar`
+* `RangeCalendar`
+* subcomponents like header, presets panel, footer
+* registry manifest definitions
+
+This is the package that should feel most shadcn-native.
+
+---
+
+## Why `core` and `registry` should be separate
+
+They solve different problems.
+
+### `core`
+
+* maintainability
+* testability
+* reusable logic
+* less duplicated behavior
+
+### `registry`
+
+* user-facing installable code
+* editable source
+* shadcn-compatible distribution
+* visual and integration boundary
+
+Rule:
+
+```txt
+core = engine
+registry = installable UI source
+```
+
+---
+
+## Registry Component Organization
+
+Group by install target, not by tiny technical pieces.
+
+Example:
+
+```txt
+registry/src/components/
+├─ calendar/
+├─ range-calendar/
+├─ date-picker/
+└─ date-range-picker/
+```
+
+This makes it easier to:
+
+* generate manifests
+* install components
+* document each unit
+* keep related files together
+
+### Suggested split for `date-range-picker`
+
+```txt
+date-range-picker/
+├─ date-range-picker.tsx
+├─ linked-calendars.tsx
+├─ presets-panel.tsx
+├─ picker-footer.tsx
+├─ range-input-display.tsx
+└─ index.ts
+```
+
+This is better than one very large file.
+
+---
+
+## Low-level vs Wrapper-level Responsibilities
+
+### Low-level primitives
+
+Keep these simple and reusable:
+
+* `Calendar`
+* `RangeCalendar`
+* `CalendarHeader`
+
+They should support:
+
+* date grid behavior
+* keyboard navigation
+* month/year dropdown header
+* inline rendering
+
+They should **not** know too much about:
+
+* popover state
+* Apply button
+* presets persistence
+* committed vs draft app logic
+
+### Wrapper-level
+
+Put these in:
+
+* `DatePicker`
+* `DateRangePicker`
+
+They own:
+
+* input trigger
+* popover
+* internal draft session
+* apply flow
+* presets UI
+* open/close behavior
+
+---
+
+## Registry Manifests
+
+Inside `packages/registry`, keep manifest definitions separate.
+
+Example:
+
+```txt
+packages/registry/src/manifests/
+├─ calendar.json
+├─ range-calendar.json
+├─ date-picker.json
+└─ date-range-picker.json
+```
+
+These define:
+
+* files to install
+* dependencies
+* optional registry metadata
+* related hooks/helpers
+
+This makes automation and validation easier.
+
+---
+
+## Testing Structure
+
+Add tests close to behavior-heavy code.
+
+Example:
+
+```txt
+packages/core/src/navigation/__tests__/
+packages/core/src/presets/__tests__/
+packages/registry/src/components/date-range-picker/__tests__/
+packages/registry/src/components/calendar/__tests__/
+```
+
+Focus tests on:
+
+* linked month behavior
+* commit-only value changes
+* autoApply vs non-autoApply
+* preset persistence
+* open/close flow
+
+---
+
+## Docs Structure Suggestion
+
+Inside `apps/docs`, prefer something like:
+
+```txt
+apps/docs/src/
+├─ app/
+│  ├─ docs/
+│  │  ├─ installation/
+│  │  ├─ components/
+│  │  │  ├─ calendar/
+│  │  │  ├─ range-calendar/
+│  │  │  ├─ date-picker/
+│  │  │  └─ date-range-picker/
+│  │  └─ page.tsx
+│  ├─ examples/
+│  └─ page.tsx
+├─ components/
+│  ├─ demo-frame.tsx
+│  ├─ prop-table.tsx
+│  └─ event-log.tsx
+└─ lib/
+```
+
+Docs should show:
+
+* basic install
+* controlled/uncontrolled usage
+* presets
+* autoApply
+* customization points
+
+---
+
+## What not to add too early
+
+Avoid creating too many packages too soon, such as:
+
+* `ui`
+* `icons`
+* `themes`
+* `adapters`
+* `react`
+* `next`
+* `headless`
+
+For v1, these are enough:
+
+* `core`
+* `registry`
+* `tooling`
+* `config`
+* `docs`
+
+---
+
+## v1 Delivery Direction
+
+### Build and ship:
+
+* docs/demo app
+* registry-based install flow
+* `DatePicker`
+* `DateRangePicker`
+* self-contained but editable source files
+* shadcn-compatible styling
+* minimal public API
+
+### Do not prioritize as primary product:
+
+* direct styled npm package imports as the main consumption model
+
+### May be added later:
+
+* headless/core npm package
+* advanced CLI helpers
+* extra adapters/utilities
+* premium/private registry offerings
+
+---
+
+## Decision Summary
+
+### Final call
+
+This project should be built as:
+
+**open-code on the outside, package architecture on the inside**
+
+and distributed as:
+
+**a registry-first shadcn-compatible calendar component system**
+
+not as:
+
+**a traditional styled React date picker library**
+
+---
+
+## Guiding Principle
+
+When there is a tradeoff between:
+
+* internal engineering convenience
+* and external source ownership/customizability
+
+prefer the direction that better serves:
+
+* shadcn users
+* Next.js/React developers
+* editable installed source
+* low-friction theming/customization
+
+This should feel like a **high-quality shadcn ecosystem product**, not a closed UI package.
+
+```
+```

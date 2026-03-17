@@ -11,8 +11,8 @@ import {
   isRangeEnd,
   isRangeStart,
   normalizeDate
-} from "../utils/date";
-import { useControllableState } from "../utils/use-controllable-state";
+} from "../lib/date";
+import { useControllableState } from "../lib/use-controllable-state";
 import { CalendarGrid } from "./calendar-grid";
 
 function normalizeRange(range: DateRange | null | undefined): DateRange | null {
