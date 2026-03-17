@@ -22,7 +22,7 @@ export function DatePicker({
   fromYear,
   toYear,
   displayFormat = "MMM d, yyyy"
-}: DatePickerProps) {
+}: Readonly<DatePickerProps>) {
   const [committedDate, setCommittedDate] = useControllableState<Date | null>({
     value,
     defaultValue,
@@ -128,7 +128,7 @@ export function DatePicker({
           }}
         />
 
-        {!autoApply ? (
+        {autoApply ? null : (
           <div className="mt-3 flex items-center justify-end gap-2 border-t border-border pt-3">
             <Button
               type="button"
@@ -147,7 +147,7 @@ export function DatePicker({
               Apply
             </Button>
           </div>
-        ) : null}
+        )}
       </Card>
     </DatePickerInput>
   );

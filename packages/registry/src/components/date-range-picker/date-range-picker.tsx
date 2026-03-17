@@ -76,7 +76,7 @@ export function DateRangePicker({
   presetLabels,
   enableCustomPresets = true,
   customPresetStorageKey = DEFAULT_CUSTOM_PRESET_STORAGE_KEY
-}: DateRangePickerProps) {
+}: Readonly<DateRangePickerProps>) {
   const normalizedValue = useMemo(
     () => (value === undefined ? undefined : normalizeRange(value)),
     [value === undefined, value === null, value?.from?.getTime(), value?.to?.getTime()]
@@ -189,6 +189,9 @@ export function DateRangePicker({
     (preset: RangePreset) => {
       const normalized = normalizeRange(preset.value);
       setDraftRange(normalized);
+      if (normalized?.from) {
+        setBaseMonth(startOfMonth(normalized.from));
+      }
 
       if (autoApply && isCompleteRange(normalized)) {
         commitRange(normalized);
@@ -267,14 +270,14 @@ export function DateRangePicker({
             onDraftRangeChange={handleDraftRangeChange}
           />
 
-          {!autoApply ? (
+          {autoApply ? null : (
             <PickerFooter
               draftPreview={draftPreview}
               canApply={isCompleteRange(draftRange)}
               onClear={() => commitRange(null)}
               onApply={() => commitRange(draftRange)}
             />
-          ) : null}
+          )}
         </div>
       </div>
     </RangeInputDisplay>

@@ -14,7 +14,7 @@ export function PickerFooter({
   canApply,
   onClear,
   onApply
-}: PickerFooterProps) {
+}: Readonly<PickerFooterProps>) {
   return (
     <div className="flex items-center justify-between gap-2 border-t border-border pt-3">
       <p className="text-sm text-muted-foreground">

@@ -1,4 +1,4 @@
-import { format, startOfDay } from "date-fns";
+import { addDays, addMonths, format, startOfDay } from "date-fns";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -111,6 +111,27 @@ describe("DateRangePicker", () => {
       from: today,
       to: today
     });
+  });
+
+  it("moves linked calendars to preset start month", async () => {
+    const user = userEvent.setup();
+    const now = new Date();
+    const futureFrom = addMonths(startOfDay(now), 2);
+    const futureTo = addDays(futureFrom, 6);
+
+    render(
+      <DateRangePicker
+        autoApply={false}
+        defaultValue={{ from: futureFrom, to: futureTo }}
+      />
+    );
+
+    await user.click(screen.getByPlaceholderText("Select date range"));
+    await user.click(screen.getByRole("button", { name: "This month" }));
+
+    expect(screen.getByLabelText("Month Calendar 1")).toHaveTextContent(
+      format(now, "MMMM")
+    );
   });
 
   it("hydrates custom presets from localStorage", async () => {

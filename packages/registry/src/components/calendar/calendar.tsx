@@ -22,7 +22,7 @@ export function Calendar({
   className,
   classNames,
   variant
-}: CalendarProps) {
+}: Readonly<CalendarProps>) {
   const [selectedDate, setSelectedDate] = useControllableState<Date | null>({
     value,
     defaultValue,

@@ -34,7 +34,7 @@ export function PresetsPanel({
   onPresetSelect,
   onCustomPresetLabelChange,
   onSaveCustomPreset
-}: PresetsPanelProps) {
+}: Readonly<PresetsPanelProps>) {
   return (
     <Card className="w-52 border border-border bg-muted/30 p-3">
       <ScrollArea className="max-h-72 pr-1">

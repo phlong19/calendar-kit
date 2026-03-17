@@ -9,7 +9,6 @@
 - `packages/tooling`: registry/scripts validation tooling (scaffolded)
 - `packages/config`: shared config package (scaffolded)
 - `packages/test-utils`: shared testing helpers (scaffolded)
-- `packages/calendar-kit`: legacy package kept for compatibility during migration
 - `apps/docs`: Next.js docs and interactive demos
 
 ## Quick start

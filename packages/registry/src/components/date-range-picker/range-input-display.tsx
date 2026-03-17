@@ -12,6 +12,6 @@ interface RangeInputDisplayProps {
   children: ReactNode;
 }
 
-export function RangeInputDisplay(props: RangeInputDisplayProps) {
+export function RangeInputDisplay(props: Readonly<RangeInputDisplayProps>) {
   return <PickerPopover {...props} />;
 }

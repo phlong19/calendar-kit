@@ -161,7 +161,7 @@ export function CalendarGrid({
   className,
   classNames,
   variant = "default"
-}: CalendarGridProps) {
+}: Readonly<CalendarGridProps>) {
   const weeks = useMemo(() => getCalendarWeeks(month, locale), [month, locale]);
   const weekdayLabels = useMemo(() => getWeekdayLabels(locale), [locale]);
   const [focusDate, setFocusDate] = useState<Date | null>(null);

@@ -20,7 +20,7 @@ export function PickerPopover({
   displayValue,
   placeholder,
   children
-}: PickerPopoverProps) {
+}: Readonly<PickerPopoverProps>) {
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
@@ -38,7 +38,7 @@ export function PickerPopover({
       <PopoverContent
         align="start"
         sideOffset={8}
-        className="calendar-kit-theme w-[var(--radix-popover-trigger-width)] min-w-max rounded-xl border border-border bg-popover p-3 text-popover-foreground shadow-lg"
+        className="calendar-kit-theme w-(--radix-popover-trigger-width) min-w-max rounded-xl border border-border bg-popover p-3 text-popover-foreground shadow-lg"
       >
         {children}
       </PopoverContent>

@@ -1,12 +1,9 @@
 import type { Locale } from "date-fns";
 import type {
-  BuiltInPresetId,
   BuiltInPresetLabels,
   DateRange,
-  RangePreset
+  RangePreset,
 } from "@calendar-kit/core";
-
-export type { BuiltInPresetId, BuiltInPresetLabels, DateRange, RangePreset };
 
 export type CalendarVariant = "default" | "outline" | "ghost";
 
@@ -77,3 +74,10 @@ export interface DateRangePickerProps extends PickerBaseProps {
   enableCustomPresets?: boolean;
   customPresetStorageKey?: string;
 }
+
+export {
+  type RangePreset,
+  type BuiltInPresetLabels,
+  type DateRange,
+  type BuiltInPresetId,
+} from "@calendar-kit/core";

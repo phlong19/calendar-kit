@@ -43,7 +43,7 @@ export function RangeCalendar({
   className,
   classNames,
   variant
-}: RangeCalendarProps) {
+}: Readonly<RangeCalendarProps>) {
   const [selectedRange, setSelectedRange] = useControllableState<DateRange | null>({
     value: value === undefined ? undefined : normalizeRange(value),
     defaultValue: normalizeRange(defaultValue),

@@ -25,7 +25,7 @@ export function LinkedCalendars({
   toYear,
   onBaseMonthChange,
   onDraftRangeChange
-}: LinkedCalendarsProps) {
+}: Readonly<LinkedCalendarsProps>) {
   return (
     <div className="flex gap-3">
       {Array.from({ length: count }, (_, index) => {

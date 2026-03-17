@@ -1,6 +1,7 @@
 "use client";
 
 import { addMonths, format } from "date-fns";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useMemo } from "react";
 
 import { cn } from "../../lib/utils";
@@ -29,7 +30,7 @@ export function MonthYearControls({
   calendarLabel,
   onMonthChange,
   className
-}: MonthYearControlsProps) {
+}: Readonly<MonthYearControlsProps>) {
   const months = useMemo(
     () =>
       Array.from({ length: 12 }, (_, index) => ({
@@ -51,15 +52,16 @@ export function MonthYearControls({
   const year = month.getFullYear();
 
   return (
-    <div className={cn("mb-2 flex items-center justify-between gap-2", className)}>
+    <div className={cn("mb-3 flex items-center justify-between gap-2", className)}>
       <Button
         type="button"
         variant="outline"
         size="icon-sm"
+        className="h-8 w-8"
         aria-label={`Previous month ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, -1))}
       >
-        &lt;
+        <ChevronLeftIcon />
       </Button>
 
       <div className="flex items-center gap-2">
@@ -67,7 +69,11 @@ export function MonthYearControls({
           value={String(monthIndex)}
           onValueChange={(nextMonth) => onMonthChange(new Date(year, Number(nextMonth), 1))}
         >
-          <SelectTrigger aria-label={`Month ${calendarLabel}`} size="sm" className="h-8 bg-background">
+          <SelectTrigger
+            aria-label={`Month ${calendarLabel}`}
+            size="sm"
+            className="h-8 min-w-[7.5rem]"
+          >
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -83,7 +89,11 @@ export function MonthYearControls({
           value={String(year)}
           onValueChange={(nextYear) => onMonthChange(new Date(Number(nextYear), monthIndex, 1))}
         >
-          <SelectTrigger aria-label={`Year ${calendarLabel}`} size="sm" className="h-8 bg-background">
+          <SelectTrigger
+            aria-label={`Year ${calendarLabel}`}
+            size="sm"
+            className="h-8 min-w-[5.25rem]"
+          >
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -100,10 +110,11 @@ export function MonthYearControls({
         type="button"
         variant="outline"
         size="icon-sm"
+        className="h-8 w-8"
         aria-label={`Next month ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, 1))}
       >
-        &gt;
+        <ChevronRightIcon />
       </Button>
     </div>
   );

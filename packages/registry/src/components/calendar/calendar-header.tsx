@@ -1,5 +1,3 @@
 "use client";
 
-import { MonthYearControls } from "../shared/month-year-controls";
-
-export const CalendarHeader = MonthYearControls;
+export { MonthYearControls as CalendarHeader } from "../shared/month-year-controls";

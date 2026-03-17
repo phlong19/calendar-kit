@@ -51,11 +51,11 @@ function toPersistedPreset(preset: RangePreset): PersistedCustomPreset | null {
 }
 
 export function loadCustomPresets(storageKey: string): RangePreset[] {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return [];
   }
 
-  const raw = window.localStorage.getItem(storageKey);
+  const raw = globalThis.localStorage.getItem(storageKey);
 
   if (!raw) {
     return [];
@@ -90,7 +90,7 @@ export function loadCustomPresets(storageKey: string): RangePreset[] {
 }
 
 export function saveCustomPresets(storageKey: string, presets: RangePreset[]) {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return;
   }
 
@@ -103,5 +103,5 @@ export function saveCustomPresets(storageKey: string, presets: RangePreset[]) {
     presets: serializedPresets
   };
 
-  window.localStorage.setItem(storageKey, JSON.stringify(payload));
+  globalThis.localStorage.setItem(storageKey, JSON.stringify(payload));
 }

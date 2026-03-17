@@ -12,6 +12,6 @@ interface DatePickerInputProps {
   children: ReactNode;
 }
 
-export function DatePickerInput(props: DatePickerInputProps) {
+export function DatePickerInput(props: Readonly<DatePickerInputProps>) {
   return <PickerPopover {...props} />;
 }
