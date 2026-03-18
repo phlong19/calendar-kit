@@ -20,8 +20,15 @@ Primary product direction is open-code/registry consumption for Next.js + shadcn
 ## Install
 
 ```bash
-pnpm add @calendar-kit/registry date-fns class-variance-authority clsx tailwind-merge
+pnpm add @calendar-kit/registry
 ```
+
+`react` and `react-dom` are peer dependencies and should already exist in your app.
+
+## Install (open-code mode)
+
+Use manifest-driven source install from `src/manifests/*` if you want full code ownership in your app.
+In this mode, install dependencies listed by each manifest entry (for example `date-fns`, Radix packages, `lucide-react`, `class-variance-authority`, `clsx`, `tailwind-merge`).
 
 ## Quick usage
 
@@ -67,3 +74,9 @@ export function Example() {
 - `locale` controls date-fns behavior and localized month/weekday rendering.
 - `labels` controls UI strings with default English fallback.
 - Use `labels.presets` for built-in preset translations (`presetLabels` is removed).
+
+## Prerelease install
+
+```bash
+pnpm add @calendar-kit/registry@next
+```

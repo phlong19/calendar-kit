@@ -25,6 +25,9 @@ pnpm dev
 - `pnpm test`: run tests
 - `pnpm lint`: run lint checks
 - `pnpm typecheck`: run TypeScript checks
+- `pnpm release:check`: run publish guard checks (`lint`, `typecheck`, `test`, `build`)
+- `pnpm release:pack`: create and validate `core` + `registry` tarballs
+- `pnpm release:publish:next`: publish prerelease in order (`core`, then `registry`)
 
 ## Current scope
 
@@ -93,11 +96,30 @@ Localization notes:
 - Use `labels` for UI copy fallback (`labels?.key ?? defaultEnglish`).
 - `presetLabels` has been replaced by `labels.presets`.
 
+## Install modes
+
+### npm package mode (fast path)
+
+```bash
+pnpm add @calendar-kit/registry
+```
+
+Use this when you want quick installation with package-managed dependencies.
+`date-fns`, Radix, and related runtime dependencies are pulled via `@calendar-kit/registry`.
+
+### Registry/open-code mode (source ownership path)
+
+Use the registry manifests in `packages/registry/src/manifests` to install source files into your app.
+This mode is for teams that want direct ownership/editing of component source after install.
+
+In both modes, localization is the same:
+
+- `locale` controls date-fns behavior and localized date text
+- `labels` controls UI copy with English fallback (`labels?.key ?? defaultEnglish`)
+
 ## Distribution direction
 
-This repo is registry-first/open-code for Next.js + shadcn users.
+This repo ships in hybrid mode:
 
-1. Primary: install source components (editable after install)
-2. Secondary: workspace/package usage for local development and testing
-
-The goal is source ownership and customization, not a black-box styled widget.
+1. npm package install for fast adoption
+2. registry/open-code install for shadcn-style source ownership

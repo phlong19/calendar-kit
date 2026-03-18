@@ -9,7 +9,10 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "release:pack": "node packages/tooling/src/release-pack-check.mjs",
+    "release:publish:next": "pnpm --filter @calendar-kit/core publish --tag next --access public && pnpm --filter @calendar-kit/registry publish --tag next --access public"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

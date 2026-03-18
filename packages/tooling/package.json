@@ -7,7 +7,8 @@
     "build": "tsc -p tsconfig.json --noEmit --pretty false",
     "lint": "tsc -p tsconfig.json --noEmit --pretty false",
     "typecheck": "tsc -p tsconfig.json --noEmit --pretty false",
-    "test": "echo 'No tooling tests yet'"
+    "test": "echo 'No tooling tests yet'",
+    "release:pack-check": "node src/release-pack-check.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

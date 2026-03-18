@@ -1,6 +1,6 @@
 {
   "name": "@calendar-kit/registry",
-  "version": "0.1.0",
+  "version": "0.1.1-next.0",
   "description": "Installable calendar-kit registry source package",
   "license": "MIT",
   "type": "module",
@@ -22,6 +22,7 @@
     }
   },
   "scripts": {
+    "prepack": "pnpm build",
     "build": "tsup && cp src/styles/styles.css dist/styles.css",
     "dev": "tsup --watch",
     "lint": "tsc -p tsconfig.json --noEmit --pretty false",
@@ -33,7 +34,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@calendar-kit/core": "workspace:*",
+    "@calendar-kit/core": "0.1.1-next.0",
     "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-select": "^2.2.6",
