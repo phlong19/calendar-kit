@@ -47,7 +47,7 @@ export function PresetsPanel({
   return (
     <Card
       id="presets-panel-container-card"
-      className="w-52 shrink-0 rounded-none border-r border-border bg-muted/30 p-3 pb-3.5 gap-2 ring-0 gap-0 justify-between"
+      className="w-52 shrink-0 rounded-none border-r border-border bg-muted/30 p-3 pb-3.5 ring-0 gap-0 justify-between"
     >
       <ScrollArea
         type={presets.length > 8 ? "always" : "auto"}
