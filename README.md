@@ -34,6 +34,65 @@ pnpm dev
 - Presets + add-only custom preset persistence for range picker
 - Tailwind + CVA style model
 
+## Usage guide
+
+`DatePicker` and `DateRangePicker` expose committed-value APIs.
+
+- `value` is the committed value
+- `onValueChange` fires only when commit happens
+- `autoApply={false}` keeps draft changes internal until `Apply`
+- `autoApply={true}` commits immediately for single date, and for range only after both `from` and `to` are selected
+
+```tsx
+import { useState } from "react";
+import { enGB } from "date-fns/locale";
+import { DatePicker, DateRangePicker, type DateRange } from "@calendar-kit/registry";
+
+function Example() {
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [range, setRange] = useState<DateRange | null>(null);
+
+  return (
+    <>
+      <DatePicker
+        value={date}
+        onValueChange={setDate}
+        locale={enGB}
+        labels={{
+          datePlaceholder: "Select a date",
+          clear: "Clear",
+          apply: "Apply"
+        }}
+      />
+
+      <DateRangePicker
+        value={range}
+        onValueChange={setRange}
+        autoApply={false}
+        locale={enGB}
+        labels={{
+          rangePlaceholder: "Select date range",
+          customPresetPlaceholder: "Custom range",
+          apply: "Apply",
+          clear: "Clear",
+          save: "Save",
+          presets: {
+            today: "Today",
+            yesterday: "Yesterday"
+          }
+        }}
+      />
+    </>
+  );
+}
+```
+
+Localization notes:
+
+- Use `locale` to localize month/day names and week boundaries.
+- Use `labels` for UI copy fallback (`labels?.key ?? defaultEnglish`).
+- `presetLabels` has been replaced by `labels.presets`.
+
 ## Distribution direction
 
 This repo is registry-first/open-code for Next.js + shadcn users.

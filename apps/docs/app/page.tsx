@@ -24,6 +24,21 @@ export default function HomePage() {
         <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-slate-100">
 {`pnpm add @calendar-kit/registry date-fns class-variance-authority clsx tailwind-merge`}
         </pre>
+        <p className="mt-4 text-sm text-slate-600">
+          Localization uses `locale` (date-fns behavior/text) and `labels` (UI copy with English fallback).
+        </p>
+        <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-slate-100">
+{`<DateRangePicker
+  locale={vi}
+  labels={{
+    rangePlaceholder: "Chọn khoảng ngày",
+    apply: "Áp dụng",
+    clear: "Xóa",
+    save: "Lưu",
+    presets: { today: "Hôm nay" }
+  }}
+/>`}
+        </pre>
       </section>
     </main>
   );

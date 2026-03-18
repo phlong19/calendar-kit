@@ -13,6 +13,7 @@ export type {
   DatePickerProps,
   DateRangePickerProps,
   DateRange,
+  PickerLabels,
   RangePreset,
   RangeCalendarProps
 } from "./types";

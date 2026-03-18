@@ -37,6 +37,7 @@ interface CalendarGridProps {
   month: Date;
   onMonthChange: (nextMonth: Date) => void;
   locale?: Locale;
+  calendarAriaLabel?: string;
   isDisabled: (date: Date) => boolean;
   getSelectionState: (date: Date) => SelectionState;
   onSelectDate: (date: Date) => void;
@@ -80,7 +81,7 @@ const dayButtonStyles = cva(
         false: "",
       },
       selected: {
-        true: "bg-primary text-primary-foreground hover:bg-primary",
+        true: "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
         false: "",
       },
       inRange: {
@@ -155,6 +156,7 @@ export function CalendarGrid({
   month,
   onMonthChange,
   locale,
+  calendarAriaLabel = "Calendar",
   isDisabled,
   getSelectionState,
   onSelectDate,
@@ -217,7 +219,7 @@ export function CalendarGrid({
         className,
       )}
     >
-      <table className="border-collapse" role="grid" aria-label="Calendar">
+      <table className="border-collapse" role="grid" aria-label={calendarAriaLabel}>
         <thead>
           <tr className={getSlotClass("weekRow", "", classNames)}>
             {weekdayLabels.map((label, index) => (

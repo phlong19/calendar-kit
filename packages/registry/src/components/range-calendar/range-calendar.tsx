@@ -37,6 +37,7 @@ export function RangeCalendar({
   month,
   onMonthChange,
   locale,
+  calendarAriaLabel,
   disabled,
   minDate,
   maxDate,
@@ -119,6 +120,7 @@ export function RangeCalendar({
       month={currentMonth}
       onMonthChange={setCurrentMonth}
       locale={locale}
+      calendarAriaLabel={calendarAriaLabel}
       isDisabled={isDisabledDate}
       getSelectionState={getSelectionState}
       onSelectDate={handleSelectDate}

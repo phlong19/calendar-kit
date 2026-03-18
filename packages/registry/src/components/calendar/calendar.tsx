@@ -16,6 +16,7 @@ export function Calendar({
   month,
   onMonthChange,
   locale,
+  calendarAriaLabel,
   disabled,
   minDate,
   maxDate,
@@ -73,6 +74,7 @@ export function Calendar({
       month={currentMonth}
       onMonthChange={setCurrentMonth}
       locale={locale}
+      calendarAriaLabel={calendarAriaLabel}
       isDisabled={isDisabledDate}
       getSelectionState={getSelectionState}
       onSelectDate={handleSelectDate}

@@ -8,6 +8,7 @@ import {
   subMonths,
   subWeeks
 } from "date-fns";
+import type { Locale } from "date-fns";
 
 import type { BuiltInPresetId, BuiltInPresetLabels, RangePreset } from "../types";
 
@@ -31,10 +32,12 @@ function getBuiltInPresetLabel(
 
 export function getBuiltInPresets(
   referenceDate = new Date(),
-  labels?: BuiltInPresetLabels
+  labels?: BuiltInPresetLabels,
+  locale?: Locale
 ): RangePreset[] {
   const today = startOfDay(referenceDate);
   const yesterday = subDays(today, 1);
+  const weekStartsOn = locale?.options?.weekStartsOn;
 
   return [
     {
@@ -50,14 +53,17 @@ export function getBuiltInPresets(
     {
       id: "this-week",
       label: getBuiltInPresetLabel("this-week", labels),
-      value: { from: startOfWeek(today), to: endOfWeek(today) }
+      value: {
+        from: startOfWeek(today, { locale, weekStartsOn }),
+        to: endOfWeek(today, { locale, weekStartsOn })
+      }
     },
     {
       id: "last-week",
       label: getBuiltInPresetLabel("last-week", labels),
       value: {
-        from: startOfWeek(subWeeks(today, 1)),
-        to: endOfWeek(subWeeks(today, 1))
+        from: startOfWeek(subWeeks(today, 1), { locale, weekStartsOn }),
+        to: endOfWeek(subWeeks(today, 1), { locale, weekStartsOn })
       }
     },
     {

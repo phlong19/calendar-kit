@@ -8,27 +8,33 @@ import {
   loadCustomPresets,
   saveCustomPresets
 } from "@calendar-kit/core";
+import type { Locale } from "date-fns";
 import { format, isSameDay, isSameMonth, startOfMonth } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { DateRange, DateRangePickerProps, RangePreset } from "../../types";
+import { resolvePickerLabels } from "../../lib/picker-labels";
 import { useControllableState } from "../../lib/use-controllable-state";
 import { LinkedCalendars } from "./linked-calendars";
 import { PickerFooter } from "./picker-footer";
 import { PresetsPanel } from "./presets-panel";
 import { RangeInputDisplay } from "./range-input-display";
 
-function formatRangeValue(range: DateRange | null | undefined, displayFormat: string) {
+function formatRangeValue(
+  range: DateRange | null | undefined,
+  displayFormat: string,
+  locale?: Locale
+) {
   if (!range?.from && !range?.to) {
     return "";
   }
 
   if (range?.from && range.to) {
-    return `${format(range.from, displayFormat)} - ${format(range.to, displayFormat)}`;
+    return `${format(range.from, displayFormat, { locale })} - ${format(range.to, displayFormat, { locale })}`;
   }
 
   if (range?.from) {
-    return `${format(range.from, displayFormat)} -`;
+    return `${format(range.from, displayFormat, { locale })} -`;
   }
 
   return "";
@@ -71,12 +77,15 @@ export function DateRangePicker({
   fromYear,
   toYear,
   displayFormat = "MMM d, yyyy",
+  locale,
+  labels,
   numberOfMonths = 2,
   presets,
-  presetLabels,
   enableCustomPresets = true,
   customPresetStorageKey = DEFAULT_CUSTOM_PRESET_STORAGE_KEY
 }: Readonly<DateRangePickerProps>) {
+  const t = useMemo(() => resolvePickerLabels(labels), [labels]);
+
   const normalizedValue = useMemo(
     () => (value === undefined ? undefined : normalizeRange(value)),
     [value === undefined, value === null, value?.from?.getTime(), value?.to?.getTime()]
@@ -136,8 +145,8 @@ export function DateRangePicker({
   }, [committedRange, isOpen]);
 
   const builtInPresets = useMemo(
-    () => getBuiltInPresets(new Date(), presetLabels),
-    [presetLabels]
+    () => getBuiltInPresets(new Date(), t.presets, locale),
+    [locale, t.presets]
   );
   const normalizedProvidedPresets = useMemo(
     () => (presets ?? []).map((preset) => normalizePreset(preset)).filter((preset): preset is RangePreset => Boolean(preset)),
@@ -230,12 +239,12 @@ export function DateRangePicker({
   }, [customPresetLabel, customPresetStorageKey, draftRange, enableCustomPresets]);
 
   const displayValue = useMemo(
-    () => formatRangeValue(committedRange, displayFormat),
-    [committedRange, displayFormat]
+    () => formatRangeValue(committedRange, displayFormat, locale),
+    [committedRange, displayFormat, locale]
   );
   const draftPreview = useMemo(
-    () => formatRangeValue(draftRange, displayFormat),
-    [displayFormat, draftRange]
+    () => formatRangeValue(draftRange, displayFormat, locale),
+    [displayFormat, draftRange, locale]
   );
 
   return (
@@ -243,17 +252,17 @@ export function DateRangePicker({
       open={isOpen}
       onOpenChange={handleOpenChange}
       displayValue={displayValue}
-      placeholder="Select date range"
+      placeholder={t.rangePlaceholder}
     >
       <div
-        className="flex flex-row items-start"
-        style={{ minWidth: `${220 + 250 * calendarCount}px` }}
+        className="flex flex-row items-stretch"
       >
         <PresetsPanel
           presets={allPresets}
           draftRange={draftRange}
           customPresetLabel={customPresetLabel}
           enableCustomPresets={enableCustomPresets}
+          labels={t}
           onPresetSelect={handlePresetSelect}
           onCustomPresetLabelChange={setCustomPresetLabel}
           onSaveCustomPreset={handleSaveCustomPreset}
@@ -266,6 +275,8 @@ export function DateRangePicker({
             draftRange={draftRange}
             fromYear={startYear}
             toYear={endYear}
+            locale={locale}
+            labels={t}
             onBaseMonthChange={setBaseMonth}
             onDraftRangeChange={handleDraftRangeChange}
           />
@@ -274,6 +285,7 @@ export function DateRangePicker({
             <PickerFooter
               draftPreview={draftPreview}
               canApply={isCompleteRange(draftRange)}
+              labels={t}
               onClear={() => commitRange(null)}
               onApply={() => commitRange(draftRange)}
             />

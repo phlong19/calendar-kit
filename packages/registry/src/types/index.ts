@@ -28,6 +28,7 @@ export interface CalendarBaseProps {
   month?: Date;
   onMonthChange?: (month: Date) => void;
   locale?: Locale;
+  calendarAriaLabel?: string;
   disabled?: (date: Date) => boolean;
   minDate?: Date;
   maxDate?: Date;
@@ -56,6 +57,25 @@ export interface PickerBaseProps {
   fromYear?: number;
   toYear?: number;
   displayFormat?: string;
+  locale?: Locale;
+  labels?: PickerLabels;
+}
+
+export interface PickerLabels {
+  apply?: string;
+  clear?: string;
+  save?: string;
+  cancel?: string;
+  datePlaceholder?: string;
+  rangePlaceholder?: string;
+  customPresetPlaceholder?: string;
+  draftRangePlaceholder?: string;
+  monthSelectAria?: string;
+  yearSelectAria?: string;
+  prevMonthAria?: string;
+  nextMonthAria?: string;
+  calendarAriaLabel?: string;
+  presets?: BuiltInPresetLabels;
 }
 
 export interface DatePickerProps extends PickerBaseProps {
@@ -70,7 +90,6 @@ export interface DateRangePickerProps extends PickerBaseProps {
   onValueChange?: (value: DateRange | null) => void;
   numberOfMonths?: number;
   presets?: RangePreset[];
-  presetLabels?: BuiltInPresetLabels;
   enableCustomPresets?: boolean;
   customPresetStorageKey?: string;
 }

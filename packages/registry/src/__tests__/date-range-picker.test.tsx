@@ -1,4 +1,5 @@
-import { addDays, addMonths, format, startOfDay } from "date-fns";
+import { addDays, addMonths, endOfWeek, format, startOfDay, startOfWeek } from "date-fns";
+import { enGB, th } from "date-fns/locale";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -164,9 +165,11 @@ describe("DateRangePicker", () => {
     render(
       <DateRangePicker
         autoApply
-        presetLabels={{
-          today: "Hôm nay",
-          yesterday: "Hôm qua"
+        labels={{
+          presets: {
+            today: "Hôm nay",
+            yesterday: "Hôm qua"
+          }
         }}
       />
     );
@@ -175,6 +178,58 @@ describe("DateRangePicker", () => {
 
     expect(screen.getByRole("button", { name: "Hôm nay" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Hôm qua" })).toBeInTheDocument();
+  });
+
+  it("applies localized labels with english fallback defaults", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <DateRangePicker
+        autoApply={false}
+        labels={{
+          rangePlaceholder: "Chọn khoảng ngày",
+          apply: "Áp dụng",
+          presets: {
+            today: "Hôm nay"
+          }
+        }}
+      />
+    );
+
+    await user.click(screen.getByPlaceholderText("Chọn khoảng ngày"));
+
+    expect(screen.getByRole("button", { name: "Áp dụng" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Clear" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Hôm nay" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Yesterday" })).toBeInTheDocument();
+  });
+
+  it("uses locale for weekly preset ranges", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+
+    render(<DateRangePicker autoApply locale={enGB} onValueChange={onValueChange} />);
+
+    await user.click(screen.getByPlaceholderText("Select date range"));
+    await user.click(screen.getByRole("button", { name: "This week" }));
+
+    const today = startOfDay(new Date());
+    expect(onValueChange).toHaveBeenCalledWith({
+      from: startOfDay(startOfWeek(today, { locale: enGB, weekStartsOn: enGB.options?.weekStartsOn })),
+      to: startOfDay(endOfWeek(today, { locale: enGB, weekStartsOn: enGB.options?.weekStartsOn }))
+    });
+  });
+
+  it("uses locale for month labels", async () => {
+    const user = userEvent.setup();
+    const today = startOfDay(new Date());
+    const expectedMonthLabel = format(new Date(today.getFullYear(), today.getMonth(), 1), "MMMM", { locale: th });
+
+    render(<DateRangePicker autoApply={false} locale={th} />);
+
+    await user.click(screen.getByPlaceholderText("Select date range"));
+
+    expect(screen.getByLabelText("Month Calendar 1")).toHaveTextContent(expectedMonthLabel);
   });
 
   it("keeps presets panel scroll area constrained and always visible", async () => {

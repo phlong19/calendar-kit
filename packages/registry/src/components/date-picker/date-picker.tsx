@@ -4,6 +4,7 @@ import { format, isSameDay, isSameMonth, startOfMonth } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { DatePickerProps } from "../../types";
+import { resolvePickerLabels } from "../../lib/picker-labels";
 import { useControllableState } from "../../lib/use-controllable-state";
 import { Calendar } from "../calendar/calendar";
 import { DatePickerInput } from "./date-picker-input";
@@ -21,8 +22,12 @@ export function DatePicker({
   autoApply = false,
   fromYear,
   toYear,
-  displayFormat = "MMM d, yyyy"
+  displayFormat = "MMM d, yyyy",
+  locale,
+  labels
 }: Readonly<DatePickerProps>) {
+  const t = useMemo(() => resolvePickerLabels(labels), [labels]);
+
   const [committedDate, setCommittedDate] = useControllableState<Date | null>({
     value,
     defaultValue,
@@ -97,8 +102,8 @@ export function DatePicker({
   );
 
   const displayValue = useMemo(
-    () => (committedDate ? format(committedDate, displayFormat) : ""),
-    [committedDate, displayFormat]
+    () => (committedDate ? format(committedDate, displayFormat, { locale }) : ""),
+    [committedDate, displayFormat, locale]
   );
 
   return (
@@ -106,14 +111,19 @@ export function DatePicker({
       open={isOpen}
       onOpenChange={handleOpenChange}
       displayValue={displayValue}
-      placeholder="Select date"
+      placeholder={t.datePlaceholder}
     >
-      <Card className="border border-border bg-muted/30 p-3">
+      <Card className="ring-0 bg-muted/30 p-3 gap-0">
         <MonthYearControls
           month={currentMonth}
           fromYear={startYear}
           toYear={endYear}
-          calendarLabel="Calendar"
+          locale={locale}
+          calendarLabel={t.calendarAriaLabel}
+          monthSelectAriaLabel={t.monthSelectAria}
+          yearSelectAriaLabel={t.yearSelectAria}
+          prevMonthAriaLabel={t.prevMonthAria}
+          nextMonthAriaLabel={t.nextMonthAria}
           onMonthChange={(nextMonth) => setCurrentMonth(startOfMonth(nextMonth))}
         />
 
@@ -121,6 +131,8 @@ export function DatePicker({
           value={draftDate}
           onValueChange={handleDraftDateChange}
           month={currentMonth}
+          locale={locale}
+          calendarAriaLabel={t.calendarAriaLabel}
           onMonthChange={(nextMonth) => setCurrentMonth(startOfMonth(nextMonth))}
           classNames={{
             container: "border-0 bg-transparent p-0 shadow-none text-foreground",
@@ -136,7 +148,7 @@ export function DatePicker({
               className="h-9"
               onClick={() => commitDate(null)}
             >
-              Clear
+              {t.clear}
             </Button>
 
             <Button
@@ -144,7 +156,7 @@ export function DatePicker({
               className="h-9"
               onClick={() => commitDate(draftDate)}
             >
-              Apply
+              {t.apply}
             </Button>
           </div>
         )}

@@ -3,6 +3,7 @@
 import { addMonths, format } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useMemo } from "react";
+import type { Locale } from "date-fns";
 
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
@@ -19,6 +20,11 @@ interface MonthYearControlsProps {
   fromYear: number;
   toYear: number;
   calendarLabel: string;
+  locale?: Locale;
+  monthSelectAriaLabel: string;
+  yearSelectAriaLabel: string;
+  prevMonthAriaLabel: string;
+  nextMonthAriaLabel: string;
   onMonthChange: (nextMonth: Date) => void;
   className?: string;
 }
@@ -28,6 +34,11 @@ export function MonthYearControls({
   fromYear,
   toYear,
   calendarLabel,
+  locale,
+  monthSelectAriaLabel,
+  yearSelectAriaLabel,
+  prevMonthAriaLabel,
+  nextMonthAriaLabel,
   onMonthChange,
   className
 }: Readonly<MonthYearControlsProps>) {
@@ -35,9 +46,9 @@ export function MonthYearControls({
     () =>
       Array.from({ length: 12 }, (_, index) => ({
         value: index,
-        label: format(new Date(2024, index, 1), "MMMM")
+        label: format(new Date(2024, index, 1), "MMMM", { locale })
       })),
-    []
+    [locale]
   );
 
   const startYear = Math.min(fromYear, toYear);
@@ -58,7 +69,7 @@ export function MonthYearControls({
         variant="ghost"
         size="icon-sm"
         className="h-8 w-8 rounded-sm"
-        aria-label={`Previous month ${calendarLabel}`}
+        aria-label={`${prevMonthAriaLabel} ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, -1))}
       >
         <ChevronLeftIcon />
@@ -70,7 +81,7 @@ export function MonthYearControls({
           onValueChange={(nextMonth) => onMonthChange(new Date(year, Number(nextMonth), 1))}
         >
           <SelectTrigger
-            aria-label={`Month ${calendarLabel}`}
+            aria-label={`${monthSelectAriaLabel} ${calendarLabel}`}
             size="sm"
             className="h-8 rounded-sm min-w-[115px]"
           >
@@ -90,7 +101,7 @@ export function MonthYearControls({
           onValueChange={(nextYear) => onMonthChange(new Date(Number(nextYear), monthIndex, 1))}
         >
           <SelectTrigger
-            aria-label={`Year ${calendarLabel}`}
+            aria-label={`${yearSelectAriaLabel} ${calendarLabel}`}
             size="sm"
             className="h-8 min-w-[80px] rounded-sm"
           >
@@ -111,7 +122,7 @@ export function MonthYearControls({
         variant="ghost"
         size="icon-sm"
         className="h-8 w-8 rounded-sm"
-        aria-label={`Next month ${calendarLabel}`}
+        aria-label={`${nextMonthAriaLabel} ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, 1))}
       >
         <ChevronRightIcon />

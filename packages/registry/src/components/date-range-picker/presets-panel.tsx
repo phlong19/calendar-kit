@@ -3,6 +3,7 @@
 import { cn } from "../../lib/utils";
 import type { DateRange, RangePreset } from "../../types";
 import { isCompleteRange } from "@calendar-kit/core";
+import type { ResolvedPickerLabels } from "../../lib/picker-labels";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
@@ -13,17 +14,24 @@ interface PresetsPanelProps {
   draftRange: DateRange | null;
   customPresetLabel: string;
   enableCustomPresets: boolean;
+  labels: ResolvedPickerLabels;
   onPresetSelect: (preset: RangePreset) => void;
   onCustomPresetLabelChange: (label: string) => void;
   onSaveCustomPreset: () => void;
 }
 
-function isRangeMatch(left: DateRange | null | undefined, right: DateRange | null | undefined) {
+function isRangeMatch(
+  left: DateRange | null | undefined,
+  right: DateRange | null | undefined,
+) {
   if (!left?.from || !left.to || !right?.from || !right.to) {
     return false;
   }
 
-  return left.from.getTime() === right.from.getTime() && left.to.getTime() === right.to.getTime();
+  return (
+    left.from.getTime() === right.from.getTime() &&
+    left.to.getTime() === right.to.getTime()
+  );
 }
 
 export function PresetsPanel({
@@ -31,32 +39,36 @@ export function PresetsPanel({
   draftRange,
   customPresetLabel,
   enableCustomPresets,
+  labels,
   onPresetSelect,
   onCustomPresetLabelChange,
-  onSaveCustomPreset
+  onSaveCustomPreset,
 }: Readonly<PresetsPanelProps>) {
   return (
     <Card
       id="presets-panel-container-card"
-      className="w-52 shrink-0 rounded-none border-r border-border bg-muted/30 p-3 ring-0 gap-0"
+      className="w-52 shrink-0 rounded-none border-r border-border bg-muted/30 p-3 pb-3.5 gap-2 ring-0 gap-0 justify-between"
     >
       <ScrollArea
-        type="always"
+        type={presets.length > 8 ? "always" : "auto"}
         data-testid="presets-scroll-area"
         data-scrollbar-visibility="always"
         className="ck-presets-scroll h-75 pr-2"
       >
-        <div className="space-y-1">
+        <div className="space-y-1 flex-1">
           {presets.map((preset) => (
             <Button
               key={preset.id}
               type="button"
               className={cn(
                 "w-full justify-start text-left cursor-pointer rounded-sm",
-                isRangeMatch(draftRange, preset.value) && "bg-primary text-primary-foreground hover:bg-primary/80"
+                isRangeMatch(draftRange, preset.value) &&
+                  "bg-primary text-primary-foreground hover:bg-primary/80",
               )}
               size="sm"
-              variant={isRangeMatch(draftRange, preset.value) ? "secondary" : "ghost"}
+              variant={
+                isRangeMatch(draftRange, preset.value) ? "secondary" : "ghost"
+              }
               onClick={() => onPresetSelect(preset)}
             >
               {preset.label}
@@ -66,13 +78,15 @@ export function PresetsPanel({
       </ScrollArea>
 
       {enableCustomPresets ? (
-        <div className="flex items-center gap-1.5 pt-3">
+        <div className="flex items-end gap-1.5 justify-end pt-3">
           <Input
             id="custom-preset-label"
             value={customPresetLabel}
-            placeholder="Custom range"
+            placeholder={labels.customPresetPlaceholder}
             className="h-8 bg-background rounded-sm"
-            onChange={(event) => onCustomPresetLabelChange(event.currentTarget.value)}
+            onChange={(event) =>
+              onCustomPresetLabelChange(event.currentTarget.value)
+            }
           />
           <Button
             type="button"
@@ -82,7 +96,7 @@ export function PresetsPanel({
             className="h-8 px-2 text-xs rounded-sm shadow-none cursor-pointer"
             onClick={onSaveCustomPreset}
           >
-            Save
+            {labels.save}
           </Button>
         </div>
       ) : null}
