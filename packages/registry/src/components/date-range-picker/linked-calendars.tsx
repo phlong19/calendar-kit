@@ -24,7 +24,7 @@ export function LinkedCalendars({
   fromYear,
   toYear,
   onBaseMonthChange,
-  onDraftRangeChange
+  onDraftRangeChange,
 }: Readonly<LinkedCalendarsProps>) {
   return (
     <div className="flex flex-row">
@@ -33,26 +33,35 @@ export function LinkedCalendars({
 
         return (
           <div key={index} className="not-last:border-r not-last:border-border">
-          <Card  className="ring-0 bg-muted/30 p-3">
-            <MonthYearControls
-              month={calendarMonth}
-              fromYear={fromYear}
-              toYear={toYear}
-              calendarLabel={`Calendar ${index + 1}`}
-              onMonthChange={(nextMonth) => onBaseMonthChange(getLinkedBaseMonth(nextMonth, index))}
-            />
+            <Card
+              id={"calendar-grid-container-" + index}
+              className="ring-0 bg-muted/30 p-3 items-center gap-0"
+            >
+              <MonthYearControls
+                month={calendarMonth}
+                fromYear={fromYear}
+                toYear={toYear}
+                calendarLabel={`Calendar ${index + 1}`}
+                onMonthChange={(nextMonth) =>
+                  onBaseMonthChange(getLinkedBaseMonth(nextMonth, index))
+                }
+              />
 
-            <RangeCalendar
-              value={draftRange}
-              onValueChange={onDraftRangeChange}
-              month={calendarMonth}
-              onMonthChange={(nextMonth) => onBaseMonthChange(getLinkedBaseMonth(nextMonth, index))}
-              classNames={{
-                container: "border-0 bg-transparent p-0 shadow-none text-foreground",
-                header: "hidden"
-              }}
-            />
-          </Card></div>
+              <RangeCalendar
+                value={draftRange}
+                onValueChange={onDraftRangeChange}
+                month={calendarMonth}
+                onMonthChange={(nextMonth) =>
+                  onBaseMonthChange(getLinkedBaseMonth(nextMonth, index))
+                }
+                classNames={{
+                  container:
+                    "border-0 bg-transparent p-0 shadow-none text-foreground",
+                  header: "hidden",
+                }}
+              />
+            </Card>
+          </div>
         );
       })}
     </div>

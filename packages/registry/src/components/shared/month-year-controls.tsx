@@ -55,9 +55,9 @@ export function MonthYearControls({
     <div className={cn("mb-3 flex items-center justify-between gap-2", className)}>
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon-sm"
-        className="h-8 w-8"
+        className="h-8 w-8 rounded-sm"
         aria-label={`Previous month ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, -1))}
       >
@@ -72,7 +72,7 @@ export function MonthYearControls({
           <SelectTrigger
             aria-label={`Month ${calendarLabel}`}
             size="sm"
-            className="h-8 min-w-[7.5rem]"
+            className="h-8 rounded-sm min-w-[115px]"
           >
             <SelectValue />
           </SelectTrigger>
@@ -92,7 +92,7 @@ export function MonthYearControls({
           <SelectTrigger
             aria-label={`Year ${calendarLabel}`}
             size="sm"
-            className="h-8 min-w-[5.25rem]"
+            className="h-8 min-w-[80px] rounded-sm"
           >
             <SelectValue />
           </SelectTrigger>
@@ -108,9 +108,9 @@ export function MonthYearControls({
 
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon-sm"
-        className="h-8 w-8"
+        className="h-8 w-8 rounded-sm"
         aria-label={`Next month ${calendarLabel}`}
         onClick={() => onMonthChange(addMonths(month, 1))}
       >

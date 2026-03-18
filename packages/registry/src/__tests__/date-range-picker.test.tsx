@@ -1,8 +1,9 @@
 import { addDays, addMonths, format, startOfDay } from "date-fns";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { DateRangePicker } from "../components/date-range-picker";
+import type { RangePreset } from "../types";
 
 function dateLabel(date: Date) {
   return format(date, "PPPP");
@@ -174,5 +175,36 @@ describe("DateRangePicker", () => {
 
     expect(screen.getByRole("button", { name: "Hôm nay" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Hôm qua" })).toBeInTheDocument();
+  });
+
+  it("keeps presets panel scroll area constrained and always visible", async () => {
+    const user = userEvent.setup();
+    const now = startOfDay(new Date());
+    const presets: RangePreset[] = Array.from({ length: 20 }, (_, index) => {
+      const date = addDays(now, index);
+
+      return {
+        id: `preset-${index}`,
+        label: `Preset ${index + 1}`,
+        value: { from: date, to: date }
+      };
+    });
+
+    render(<DateRangePicker autoApply={false} presets={presets} />);
+
+    await user.click(screen.getByPlaceholderText("Select date range"));
+
+    const scrollArea = screen.getByTestId("presets-scroll-area");
+    expect(scrollArea).toHaveClass("h-72");
+    expect(scrollArea).toHaveAttribute("data-scrollbar-visibility", "always");
+
+    const verticalScrollbar = scrollArea.querySelector(
+      '[data-slot="scroll-area-scrollbar"][data-orientation="vertical"]'
+    );
+    expect(verticalScrollbar).toBeInTheDocument();
+
+    const panel = document.getElementById("presets-panel-container-card");
+    expect(panel).toBeInTheDocument();
+    expect(within(panel as HTMLElement).getByRole("button", { name: "Preset 20" })).toBeInTheDocument();
   });
 });

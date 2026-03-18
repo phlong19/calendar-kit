@@ -246,8 +246,8 @@ export function DateRangePicker({
       placeholder="Select date range"
     >
       <div
-        className="flex flex-row"
-        style={{ minWidth: `${220 + 304 * calendarCount}px` }}
+        className="flex flex-row items-start"
+        style={{ minWidth: `${220 + 250 * calendarCount}px` }}
       >
         <PresetsPanel
           presets={allPresets}
@@ -259,7 +259,7 @@ export function DateRangePicker({
           onSaveCustomPreset={handleSaveCustomPreset}
         />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col self-start">
           <LinkedCalendars
             baseMonth={baseMonth}
             count={calendarCount}

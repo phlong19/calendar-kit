@@ -8,14 +8,22 @@ import {
   format,
   isSameMonth,
   startOfMonth,
-  startOfWeek
+  startOfWeek,
 } from "date-fns";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import type { Locale } from "date-fns";
-import { getCalendarWeeks, getWeekdayLabels, toDateKey } from "@calendar-kit/core";
+import {
+  getCalendarWeeks,
+  getWeekdayLabels,
+  toDateKey,
+} from "@calendar-kit/core";
 
-import type { CalendarClassNames, CalendarSlot, CalendarVariant } from "../../types";
+import type {
+  CalendarClassNames,
+  CalendarSlot,
+  CalendarVariant,
+} from "../../types";
 import { cn } from "../../lib/utils";
 
 type SelectionState = {
@@ -37,79 +45,71 @@ interface CalendarGridProps {
   variant?: CalendarVariant;
 }
 
-const shellStyles = cva("calendar-kit-theme w-fit rounded-xl ring-0 bg-card p-4 text-card-foreground shadow-sm", {
-  variants: {
-    variant: {
-      default: "border-border",
-      outline: "border-border/80",
-      ghost: "border-transparent bg-transparent shadow-none"
-    }
-  },
-  defaultVariants: {
-    variant: "default"
-  }
-});
-
-const navButtonStyles = cva(
-  "inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+const shellStyles = cva(
+  "calendar-kit-theme w-fit rounded-xl ring-0 bg-card p-4 text-card-foreground shadow-sm",
   {
     variants: {
       variant: {
-        default: "hover:bg-accent hover:text-accent-foreground",
-        outline: "border border-border hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground"
-      }
+        default: "border-border",
+        outline: "border-border/80",
+        ghost: "border-transparent bg-transparent shadow-none",
+      },
     },
     defaultVariants: {
-      variant: "default"
-    }
-  }
+      variant: "default",
+    },
+  },
 );
 
 const dayButtonStyles = cva(
-  "inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+  "inline-flex size-10 items-center justify-center rounded-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
         default: "hover:bg-accent hover:text-accent-foreground",
-        outline: "border border-border hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground"
+        outline:
+          "border border-border hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
       },
       outside: {
         true: "text-muted-foreground",
-        false: ""
+        false: "",
       },
       disabled: {
         true: "pointer-events-none opacity-40",
-        false: ""
+        false: "",
       },
       selected: {
         true: "bg-primary text-primary-foreground hover:bg-primary",
-        false: ""
+        false: "",
       },
       inRange: {
-        true: "bg-accent text-accent-foreground",
-        false: ""
+        true: "bg-accent text-accent-foreground rounded-none",
+        false: "",
       },
       rangeEdge: {
-        true: "bg-primary text-primary-foreground hover:bg-primary",
-        false: ""
-      }
+        true: "bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground",
+        false: "",
+      },
     },
     compoundVariants: [
       {
         selected: true,
         inRange: true,
-        class: "bg-primary text-primary-foreground"
-      }
+        class: "bg-primary text-primary-foreground",
+      },
     ],
     defaultVariants: {
-      variant: "default"
-    }
-  }
+      variant: "default",
+    },
+  },
 );
 
-function getSlotClass(slot: CalendarSlot, base: string, classNames?: CalendarClassNames) {
+function getSlotClass(
+  slot: CalendarSlot,
+  base: string,
+  classNames?: CalendarClassNames,
+) {
   return cn(base, classNames?.[slot]);
 }
 
@@ -160,7 +160,7 @@ export function CalendarGrid({
   onSelectDate,
   className,
   classNames,
-  variant = "default"
+  variant = "default",
 }: Readonly<CalendarGridProps>) {
   const weeks = useMemo(() => getCalendarWeeks(month, locale), [month, locale]);
   const weekdayLabels = useMemo(() => getWeekdayLabels(locale), [locale]);
@@ -175,13 +175,6 @@ export function CalendarGrid({
     const nextFocus = dayRefs.current.get(toDateKey(focusDate));
     nextFocus?.focus();
   }, [focusDate, month]);
-
-  const handleMoveMonth = useCallback(
-    (direction: -1 | 1) => {
-      onMonthChange(startOfMonth(addMonths(month, direction)));
-    },
-    [month, onMonthChange]
-  );
 
   const handleDayKeyDown = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>, date: Date) => {
@@ -198,7 +191,7 @@ export function CalendarGrid({
         onMonthChange(startOfMonth(nextDate));
       }
     },
-    [locale, month, onMonthChange]
+    [locale, month, onMonthChange],
   );
 
   const handleSelectDate = useCallback(
@@ -213,39 +206,17 @@ export function CalendarGrid({
         onMonthChange(startOfMonth(date));
       }
     },
-    [isDisabled, month, onMonthChange, onSelectDate]
+    [isDisabled, month, onMonthChange, onSelectDate],
   );
 
   return (
-    <div className={cn(shellStyles({ variant }), getSlotClass("container", "", classNames), className)}>
-      <div
-        className={getSlotClass(
-          "header",
-          "mb-4 flex items-center justify-between gap-2",
-          classNames
-        )}
-      >
-        <button
-          type="button"
-          className={cn(navButtonStyles({ variant }), getSlotClass("navButton", "", classNames))}
-          aria-label="Go to previous month"
-          onClick={() => handleMoveMonth(-1)}
-        >
-          &lt;
-        </button>
-        <div className={getSlotClass("monthLabel", "text-sm font-semibold", classNames)}>
-          {format(month, "MMMM yyyy", { locale })}
-        </div>
-        <button
-          type="button"
-          className={cn(navButtonStyles({ variant }), getSlotClass("navButton", "", classNames))}
-          aria-label="Go to next month"
-          onClick={() => handleMoveMonth(1)}
-        >
-          &gt;
-        </button>
-      </div>
-
+    <div
+      className={cn(
+        shellStyles({ variant }),
+        getSlotClass("container", "", classNames),
+        className,
+      )}
+    >
       <table className="border-collapse" role="grid" aria-label="Calendar">
         <thead>
           <tr className={getSlotClass("weekRow", "", classNames)}>
@@ -254,8 +225,8 @@ export function CalendarGrid({
                 key={`${label}-${index}`}
                 className={getSlotClass(
                   "weekDay",
-                  "h-9 w-9 text-center text-xs font-medium text-muted-foreground",
-                  classNames
+                  "size-10 text-center text-sm font-medium text-muted-foreground border-b-2 border-transparent",
+                  classNames,
                 )}
                 scope="col"
               >
@@ -266,14 +237,21 @@ export function CalendarGrid({
         </thead>
         <tbody>
           {weeks.map((week) => (
-            <tr key={week[0]?.toISOString()} className={getSlotClass("weekRow", "", classNames)}>
+            <tr
+              key={week[0]?.toISOString()}
+              className={getSlotClass("weekRow", "", classNames)}
+            >
               {week.map((date) => {
                 const outside = !isSameMonth(date, month);
                 const disabled = isDisabled(date);
                 const selection = getSelectionState(date);
 
                 return (
-                  <td key={date.toISOString()} role="gridcell" aria-selected={selection.selected}>
+                  <td
+                    key={date.toISOString()}
+                    role="gridcell"
+                    aria-selected={selection.selected}
+                  >
                     <button
                       type="button"
                       ref={(node) => {
@@ -292,15 +270,27 @@ export function CalendarGrid({
                           disabled,
                           selected: selection.selected,
                           inRange: selection.inRange,
-                          rangeEdge: selection.rangeStart || selection.rangeEnd
+                          rangeEdge: selection.rangeStart || selection.rangeEnd,
                         }),
                         outside && getSlotClass("dayOutside", "", classNames),
                         disabled && getSlotClass("dayDisabled", "", classNames),
-                        selection.selected && getSlotClass("daySelected", "", classNames),
-                        selection.inRange && getSlotClass("dayInRange", "", classNames),
-                        selection.rangeStart && getSlotClass("dayRangeStart", "", classNames),
-                        selection.rangeEnd && getSlotClass("dayRangeEnd", "", classNames),
-                        getSlotClass("dayButton", "", classNames)
+                        selection.selected &&
+                          getSlotClass("daySelected", "", classNames),
+                        selection.inRange &&
+                          getSlotClass("dayInRange", "", classNames),
+                        selection.rangeStart &&
+                          getSlotClass(
+                            "dayRangeStart",
+                            "rounded-l-sm",
+                            classNames,
+                          ),
+                        selection.rangeEnd &&
+                          getSlotClass(
+                            "dayRangeEnd",
+                            "rounded-r-sm",
+                            classNames,
+                          ),
+                        getSlotClass("dayButton", "cursor-pointer", classNames),
                       )}
                       disabled={disabled}
                       aria-label={format(date, "PPPP", { locale })}

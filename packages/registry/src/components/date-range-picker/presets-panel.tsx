@@ -36,16 +36,24 @@ export function PresetsPanel({
   onSaveCustomPreset
 }: Readonly<PresetsPanelProps>) {
   return (
-    <Card className="w-52 ring-0 bg-muted/30 border-r border-border pr-3 rounded-none p-0">
-      <ScrollArea className="flex-1 pr-1">
+    <Card
+      id="presets-panel-container-card"
+      className="w-52 shrink-0 rounded-none border-r border-border bg-muted/30 p-3 ring-0 gap-0"
+    >
+      <ScrollArea
+        type="always"
+        data-testid="presets-scroll-area"
+        data-scrollbar-visibility="always"
+        className="ck-presets-scroll h-75 pr-2"
+      >
         <div className="space-y-1">
           {presets.map((preset) => (
             <Button
               key={preset.id}
               type="button"
               className={cn(
-                "w-full justify-start text-left",
-                isRangeMatch(draftRange, preset.value) && "bg-primary text-primary-foreground"
+                "w-full justify-start text-left cursor-pointer rounded-sm",
+                isRangeMatch(draftRange, preset.value) && "bg-primary text-primary-foreground hover:bg-primary/80"
               )}
               size="sm"
               variant={isRangeMatch(draftRange, preset.value) ? "secondary" : "ghost"}
@@ -58,12 +66,12 @@ export function PresetsPanel({
       </ScrollArea>
 
       {enableCustomPresets ? (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 pt-3">
           <Input
             id="custom-preset-label"
             value={customPresetLabel}
             placeholder="Custom range"
-            className="h-8 bg-background"
+            className="h-8 bg-background rounded-sm"
             onChange={(event) => onCustomPresetLabelChange(event.currentTarget.value)}
           />
           <Button
@@ -71,7 +79,7 @@ export function PresetsPanel({
             disabled={!isCompleteRange(draftRange) || !customPresetLabel.trim()}
             size="sm"
             variant="outline"
-            className="h-8 px-2 text-xs rounded-md"
+            className="h-8 px-2 text-xs rounded-sm shadow-none cursor-pointer"
             onClick={onSaveCustomPreset}
           >
             Save
