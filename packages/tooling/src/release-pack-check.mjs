@@ -40,18 +40,18 @@ function listTarEntries(tarPath) {
 }
 
 const workspaceRoot = process.cwd();
-const packDir = mkdtempSync(join(tmpdir(), "calendar-kit-release-pack-"));
+const packDir = mkdtempSync(join(tmpdir(), "shadcn-calendar-release-pack-"));
 
 try {
-  runLogged(`pnpm --filter @calendar-kit/core pack --pack-destination "${packDir}"`, workspaceRoot);
-  runLogged(`pnpm --filter @calendar-kit/registry pack --pack-destination "${packDir}"`, workspaceRoot);
+  runLogged(`pnpm --filter @shadcn-calendar/core pack --pack-destination "${packDir}"`, workspaceRoot);
+  runLogged(`pnpm --filter @shadcn-calendar/registry pack --pack-destination "${packDir}"`, workspaceRoot);
 
   const tarballs = readdirSync(packDir).filter((file) => file.endsWith(".tgz"));
-  const coreTarball = tarballs.find((file) => file.includes("calendar-kit-core"));
-  const registryTarball = tarballs.find((file) => file.includes("calendar-kit-registry"));
+  const coreTarball = tarballs.find((file) => file.includes("shadcn-calendar-core"));
+  const registryTarball = tarballs.find((file) => file.includes("shadcn-calendar-registry"));
 
-  assert(coreTarball, "Missing @calendar-kit/core tarball");
-  assert(registryTarball, "Missing @calendar-kit/registry tarball");
+  assert(coreTarball, "Missing @shadcn-calendar/core tarball");
+  assert(registryTarball, "Missing @shadcn-calendar/registry tarball");
 
   const coreTarPath = join(packDir, coreTarball);
   const registryTarPath = join(packDir, registryTarball);
@@ -59,41 +59,41 @@ try {
   const corePackageJson = readPackageJsonFromTar(coreTarPath);
   const coreEntries = listTarEntries(coreTarPath);
 
-  assert(corePackageJson.main === "dist/index.cjs", "@calendar-kit/core main must point to dist/index.cjs");
-  assert(corePackageJson.module === "dist/index.js", "@calendar-kit/core module must point to dist/index.js");
-  assert(corePackageJson.types === "dist/index.d.ts", "@calendar-kit/core types must point to dist/index.d.ts");
+  assert(corePackageJson.main === "dist/index.cjs", "@shadcn-calendar/core main must point to dist/index.cjs");
+  assert(corePackageJson.module === "dist/index.js", "@shadcn-calendar/core module must point to dist/index.js");
+  assert(corePackageJson.types === "dist/index.d.ts", "@shadcn-calendar/core types must point to dist/index.d.ts");
   assert(
     corePackageJson.exports?.["."]?.import === "./dist/index.js",
-    "@calendar-kit/core exports.import must point to ./dist/index.js"
+    "@shadcn-calendar/core exports.import must point to ./dist/index.js"
   );
   assert(
     corePackageJson.exports?.["."]?.require === "./dist/index.cjs",
-    "@calendar-kit/core exports.require must point to ./dist/index.cjs"
+    "@shadcn-calendar/core exports.require must point to ./dist/index.cjs"
   );
   assert(
     corePackageJson.exports?.["."]?.types === "./dist/index.d.ts",
-    "@calendar-kit/core exports.types must point to ./dist/index.d.ts"
+    "@shadcn-calendar/core exports.types must point to ./dist/index.d.ts"
   );
   assert(
     !coreEntries.some((entry) => entry.startsWith("package/src/")),
-    "@calendar-kit/core tarball must not include package/src runtime files"
+    "@shadcn-calendar/core tarball must not include package/src runtime files"
   );
 
   const registryPackageJson = readPackageJsonFromTar(registryTarPath);
   const registryEntries = listTarEntries(registryTarPath);
-  const coreDependency = registryPackageJson.dependencies?.["@calendar-kit/core"];
+  const coreDependency = registryPackageJson.dependencies?.["@shadcn-calendar/core"];
 
   assert(
     registryEntries.includes("package/dist/styles.css"),
-    "@calendar-kit/registry tarball must include dist/styles.css"
+    "@shadcn-calendar/registry tarball must include dist/styles.css"
   );
   assert(
     typeof coreDependency === "string" && coreDependency.length > 0,
-    "@calendar-kit/registry must declare @calendar-kit/core dependency"
+    "@shadcn-calendar/registry must declare @shadcn-calendar/core dependency"
   );
   assert(
     coreDependency !== "workspace:*",
-    "@calendar-kit/registry @calendar-kit/core dependency must not use workspace:*"
+    "@shadcn-calendar/registry @shadcn-calendar/core dependency must not use workspace:*"
   );
 
   process.stdout.write("\nrelease:pack checks passed.\n");

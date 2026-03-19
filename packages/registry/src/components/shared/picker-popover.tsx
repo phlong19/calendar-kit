@@ -24,7 +24,7 @@ export function PickerPopover({
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <button type="button" className="calendar-kit-theme w-full text-left">
+        <button type="button" className="shadcn-calendar-theme w-full text-left">
           <Input
             readOnly
             value={displayValue}
@@ -38,7 +38,7 @@ export function PickerPopover({
       <PopoverContent
         align="start"
         sideOffset={8}
-        className="calendar-kit-theme min-w-max border border-border bg-popover text-popover-foreground shadow-lg p-0"
+        className="shadcn-calendar-theme min-w-max border border-border bg-popover text-popover-foreground shadow-lg p-0"
       >
         {children}
       </PopoverContent>

@@ -2,7 +2,7 @@
 
 import { cn } from "../../lib/utils";
 import type { DateRange, RangePreset } from "../../types";
-import { isCompleteRange } from "@calendar-kit/core";
+import { isCompleteRange } from "@shadcn-calendar/core";
 import type { ResolvedPickerLabels } from "../../lib/picker-labels";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";

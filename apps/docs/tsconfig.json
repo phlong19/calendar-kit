@@ -7,8 +7,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@calendar-kit/registry": ["../../packages/registry/src/index.ts"],
-      "@calendar-kit/core": ["../../packages/core/src/index.ts"]
+      "@shadcn-calendar/registry": ["../../packages/registry/src/index.ts"],
+      "@shadcn-calendar/core": ["../../packages/core/src/index.ts"]
     },
     "plugins": [{ "name": "next" }]
   },

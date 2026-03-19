@@ -1,4 +1,4 @@
-import type { BuiltInPresetId } from "@calendar-kit/core";
+import type { BuiltInPresetId } from "@shadcn-calendar/core";
 
 import type { PickerLabels } from "../types";
 

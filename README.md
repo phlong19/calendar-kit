@@ -1,6 +1,6 @@
-# calendar-kit
+# shadcn-calendar
 
-`calendar-kit` is an open-source React calendar component kit with inline calendars and input-triggered pickers.
+`shadcn-calendar` is an open-source React calendar component kit with inline calendars and input-triggered pickers.
 
 ## Workspace
 
@@ -49,7 +49,7 @@ pnpm dev
 ```tsx
 import { useState } from "react";
 import { enGB } from "date-fns/locale";
-import { DatePicker, DateRangePicker, type DateRange } from "@calendar-kit/registry";
+import { DatePicker, DateRangePicker, type DateRange } from "@shadcn-calendar/registry";
 
 function Example() {
   const [date, setDate] = useState<Date | null>(new Date());
@@ -101,11 +101,11 @@ Localization notes:
 ### npm package mode (fast path)
 
 ```bash
-pnpm add @calendar-kit/registry
+pnpm add @shadcn-calendar/registry
 ```
 
 Use this when you want quick installation with package-managed dependencies.
-`date-fns`, Radix, and related runtime dependencies are pulled via `@calendar-kit/registry`.
+`date-fns`, Radix, and related runtime dependencies are pulled via `@shadcn-calendar/registry`.
 
 ### Registry/open-code mode (source ownership path)
 

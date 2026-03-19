@@ -1,6 +1,6 @@
-# @calendar-kit/registry
+# @shadcn-calendar/registry
 
-Registry-first installable source surface for calendar-kit.
+Registry-first installable source surface for shadcn-calendar.
 
 Exports:
 
@@ -12,7 +12,7 @@ Exports:
 Styles:
 
 ```css
-@import "@calendar-kit/registry/styles.css";
+@import "@shadcn-calendar/registry/styles.css";
 ```
 
 Primary product direction is open-code/registry consumption for Next.js + shadcn users.
@@ -20,7 +20,7 @@ Primary product direction is open-code/registry consumption for Next.js + shadcn
 ## Install
 
 ```bash
-pnpm add @calendar-kit/registry
+pnpm add @shadcn-calendar/registry
 ```
 
 `react` and `react-dom` are peer dependencies and should already exist in your app.
@@ -35,7 +35,7 @@ In this mode, install dependencies listed by each manifest entry (for example `d
 ```tsx
 import { useState } from "react";
 import { enGB } from "date-fns/locale";
-import { DatePicker, DateRangePicker, type DateRange } from "@calendar-kit/registry";
+import { DatePicker, DateRangePicker, type DateRange } from "@shadcn-calendar/registry";
 
 export function Example() {
   const [date, setDate] = useState<Date | null>(null);
@@ -78,5 +78,5 @@ export function Example() {
 ## Prerelease install
 
 ```bash
-pnpm add @calendar-kit/registry@next
+pnpm add @shadcn-calendar/registry@next
 ```

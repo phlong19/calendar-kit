@@ -17,7 +17,7 @@ import {
   getCalendarWeeks,
   getWeekdayLabels,
   toDateKey,
-} from "@calendar-kit/core";
+} from "@shadcn-calendar/core";
 
 import type {
   CalendarClassNames,
@@ -47,7 +47,7 @@ interface CalendarGridProps {
 }
 
 const shellStyles = cva(
-  "calendar-kit-theme w-fit rounded-xl ring-0 bg-card p-4 text-card-foreground shadow-sm",
+  "shadcn-calendar-theme w-fit rounded-xl ring-0 bg-card p-4 text-card-foreground shadow-sm",
   {
     variants: {
       variant: {

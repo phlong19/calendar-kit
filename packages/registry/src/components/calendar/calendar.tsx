@@ -3,7 +3,7 @@
 import { isSameDay, startOfMonth } from "date-fns";
 import { useCallback } from "react";
 
-import { isDateDisabled, normalizeDate } from "@calendar-kit/core";
+import { isDateDisabled, normalizeDate } from "@shadcn-calendar/core";
 
 import type { CalendarProps } from "../../types";
 import { useControllableState } from "../../lib/use-controllable-state";

@@ -1,6 +1,6 @@
 "use client";
 
-import { getLinkedBaseMonth, getLinkedMonth } from "@calendar-kit/core";
+import { getLinkedBaseMonth, getLinkedMonth } from "@shadcn-calendar/core";
 import type { Locale } from "date-fns";
 
 import type { DateRange } from "../../types";

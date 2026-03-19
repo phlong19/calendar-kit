@@ -18,9 +18,9 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-6xl px-6 py-16 lg:py-20">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-4 py-2">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white text-slate-900 text-xs font-bold">
-              CK
+              SC
             </span>
-            <span className="text-sm font-medium tracking-wide">calendar-kit docs</span>
+            <span className="text-sm font-medium tracking-wide">shadcn-calendar docs</span>
           </div>
 
           <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-tight tracking-tight lg:text-5xl">
@@ -100,8 +100,8 @@ export default function HomePage() {
               <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-slate-100">
                 {`import { useState } from "react"
 import { vi } from "date-fns/locale"
-import { DateRangePicker, type DateRange } from "@calendar-kit/registry"
-import "@calendar-kit/registry/styles.css"
+import { DateRangePicker, type DateRange } from "@shadcn-calendar/registry"
+import "@shadcn-calendar/registry/styles.css"
 
 export function Example() {
   const [value, setValue] = useState<DateRange | null>(null)
@@ -158,8 +158,8 @@ export function Example() {
               </p>
               <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-slate-100">
 {`import { Controller, useForm } from "react-hook-form"
-import { DatePicker, DateRangePicker, type DateRange } from "@calendar-kit/registry"
-import "@calendar-kit/registry/styles.css"
+import { DatePicker, DateRangePicker, type DateRange } from "@shadcn-calendar/registry"
+import "@shadcn-calendar/registry/styles.css"
 
 type FormValues = {
   singleDate: Date | null

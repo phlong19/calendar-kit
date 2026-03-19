@@ -1,5 +1,5 @@
 {
-  "name": "@calendar-kit/docs",
+  "name": "@shadcn-calendar/docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "echo 'No docs tests yet'"
   },
   "dependencies": {
-    "@calendar-kit/registry": "workspace:*",
+    "@shadcn-calendar/registry": "workspace:*",
     "date-fns": "^3.6.0",
     "next": "16.1.6",
     "react": "19.2.3",

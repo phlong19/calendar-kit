@@ -1,18 +1,18 @@
 {
-  "name": "calendar-kit-workspace",
+  "name": "shadcn-calendar-workspace",
   "private": true,
   "version": "0.1.0",
-  "description": "Open-source calendar kit workspace",
+  "description": "Open-source shadcn calendar workspace",
   "packageManager": "pnpm@10.17.1",
   "scripts": {
-    "dev": "pnpm --filter @calendar-kit/docs dev",
+    "dev": "pnpm --filter @shadcn-calendar/docs dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "release:pack": "node packages/tooling/src/release-pack-check.mjs",
-    "release:publish:next": "pnpm --filter @calendar-kit/core publish --tag next --access public && pnpm --filter @calendar-kit/registry publish --tag next --access public"
+    "release:publish:next": "pnpm --filter @shadcn-calendar/core publish --tag next --access public && pnpm --filter @shadcn-calendar/registry publish --tag next --access public"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

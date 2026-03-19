@@ -2,5 +2,5 @@
   "name": "date-range-picker",
   "files": ["components/date-range-picker", "components/range-calendar", "components/shared", "components/ui"],
   "dependencies": ["date-fns", "@radix-ui/react-popover", "@radix-ui/react-select", "@radix-ui/react-scroll-area"],
-  "registry": "calendar-kit"
+  "registry": "shadcn-calendar"
 }

@@ -1,6 +1,6 @@
-# @calendar-kit/core
+# @shadcn-calendar/core
 
-Internal engine package for calendar-kit.
+Internal engine package for shadcn-calendar.
 
 Contains:
 

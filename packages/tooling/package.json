@@ -1,5 +1,5 @@
 {
-  "name": "@calendar-kit/tooling",
+  "name": "@shadcn-calendar/tooling",
   "version": "0.1.0",
   "private": true,
   "type": "module",

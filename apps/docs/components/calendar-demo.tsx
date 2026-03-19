@@ -1,6 +1,6 @@
 "use client";
 
-import { DatePicker, DateRangePicker, type DateRange } from "@calendar-kit/registry";
+import { DatePicker, DateRangePicker, type DateRange } from "@shadcn-calendar/registry";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useMemo, useState } from "react";

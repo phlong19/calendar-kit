@@ -2,7 +2,7 @@ import { isAfter, startOfDay } from "date-fns";
 
 import type { CompleteDateRange, DateRange, RangePreset } from "../types";
 
-export const DEFAULT_CUSTOM_PRESET_STORAGE_KEY = "calendar-kit:custom-range-presets:v1";
+export const DEFAULT_CUSTOM_PRESET_STORAGE_KEY = "shadcn-calendar:custom-range-presets:v1";
 
 interface PersistedCustomPreset {
   id: string;

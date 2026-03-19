@@ -3,7 +3,7 @@ import type {
   BuiltInPresetLabels,
   DateRange,
   RangePreset,
-} from "@calendar-kit/core";
+} from "@shadcn-calendar/core";
 
 export type CalendarVariant = "default" | "outline" | "ghost";
 
@@ -99,4 +99,4 @@ export {
   type BuiltInPresetLabels,
   type DateRange,
   type BuiltInPresetId,
-} from "@calendar-kit/core";
+} from "@shadcn-calendar/core";

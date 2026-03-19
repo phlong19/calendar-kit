@@ -1,5 +1,5 @@
-/* Optional fallback tokens for calendar-kit surfaces only. */
-/* Components add `calendar-kit-theme` internally, so this stays scoped. */
+/* Optional fallback tokens for shadcn-calendar surfaces only. */
+/* Components add `shadcn-calendar-theme` internally, so this stays scoped. */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -52,7 +52,7 @@
   --ring: oklch(0.708 0 0);
 }
 
-:where(.dark .calendar-kit-theme) {
+:where(.dark .shadcn-calendar-theme) {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

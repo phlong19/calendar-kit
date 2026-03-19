@@ -18,12 +18,12 @@ export function InstallationTabs() {
       {
         id: "install-latest",
         label: "Install latest package",
-        command: "pnpm add @calendar-kit/registry"
+        command: "pnpm add @shadcn-calendar/registry"
       },
       {
         id: "install-next",
         label: "Install prerelease channel",
-        command: "pnpm add @calendar-kit/registry@next"
+        command: "pnpm add @shadcn-calendar/registry@next"
       }
     ],
     []

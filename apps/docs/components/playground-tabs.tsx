@@ -6,7 +6,7 @@ import {
   type DateRange,
   type PickerLabels,
   type RangePreset
-} from "@calendar-kit/registry";
+} from "@shadcn-calendar/registry";
 import { format, startOfDay, subDays } from "date-fns";
 import { de, enUS, es, fr, ja, vi, zhCN } from "date-fns/locale";
 import type { Locale } from "date-fns";
@@ -17,7 +17,7 @@ type PickerMode = "range" | "single";
 type LocaleKey = "enUS" | "vi" | "fr" | "ja" | "de" | "es" | "zhCN";
 type LabelSet = "en" | "vi";
 
-const DEFAULT_STORAGE_KEY = "calendar-kit:custom-range-presets:v1";
+const DEFAULT_STORAGE_KEY = "shadcn-calendar:custom-range-presets:v1";
 
 const LOCALES: Record<LocaleKey, { locale: Locale; importName: string }> = {
   enUS: { locale: enUS, importName: "enUS" },
@@ -134,8 +134,8 @@ export function PlaygroundTabs() {
     const localeImportName = LOCALES[localeKey].importName;
     const pickerImport =
       pickerMode === "single"
-        ? 'import { DatePicker } from "@calendar-kit/registry"'
-        : 'import { DateRangePicker, type DateRange } from "@calendar-kit/registry"';
+        ? 'import { DatePicker } from "@shadcn-calendar/registry"'
+        : 'import { DateRangePicker, type DateRange } from "@shadcn-calendar/registry"';
     const valueState =
       pickerMode === "single"
         ? "const [value, setValue] = useState<Date | null>(null)"
@@ -180,7 +180,7 @@ export function PlaygroundTabs() {
     return `import { useState } from "react"
 ${pickerImport}
 import { ${localeImportName} } from "date-fns/locale"
-import "@calendar-kit/registry/styles.css"
+import "@shadcn-calendar/registry/styles.css"
 
 export function Example() {
   ${valueState}

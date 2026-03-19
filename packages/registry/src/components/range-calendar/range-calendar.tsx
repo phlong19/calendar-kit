@@ -9,7 +9,7 @@ import {
   isRangeEnd,
   isRangeStart,
   normalizeDate
-} from "@calendar-kit/core";
+} from "@shadcn-calendar/core";
 
 import type { DateRange, RangeCalendarProps } from "../../types";
 import { useControllableState } from "../../lib/use-controllable-state";

@@ -28,8 +28,8 @@ Add a short summary of user-facing changes in your pull request description.
 
 ## Manual prerelease flow (`next`)
 
-1. Bump versions for `@calendar-kit/core` and `@calendar-kit/registry` to the same prerelease (for example `0.1.1-next.0`).
-2. Set `@calendar-kit/registry` dependency to the same `@calendar-kit/core` version (not `workspace:*`).
+1. Bump versions for `@shadcn-calendar/core` and `@shadcn-calendar/registry` to the same prerelease (for example `0.1.1-next.0`).
+2. Set `@shadcn-calendar/registry` dependency to the same `@shadcn-calendar/core` version (not `workspace:*`).
 3. Run:
 
 ```bash
@@ -40,11 +40,11 @@ pnpm release:pack
 4. Publish in order:
 
 ```bash
-pnpm --filter @calendar-kit/core publish --tag next --access public
-pnpm --filter @calendar-kit/registry publish --tag next --access public
+pnpm --filter @shadcn-calendar/core publish --tag next --access public
+pnpm --filter @shadcn-calendar/registry publish --tag next --access public
 ```
 
 5. Smoke test in a clean Next.js app:
-   - `pnpm add @calendar-kit/registry@next`
+   - `pnpm add @shadcn-calendar/registry@next`
    - render `DatePicker`/`DateRangePicker`
-   - import `@calendar-kit/registry/styles.css`
+   - import `@shadcn-calendar/registry/styles.css`

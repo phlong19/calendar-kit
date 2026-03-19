@@ -2,5 +2,5 @@
   "name": "calendar",
   "files": ["components/calendar"],
   "dependencies": ["date-fns"],
-  "registry": "calendar-kit"
+  "registry": "shadcn-calendar"
 }

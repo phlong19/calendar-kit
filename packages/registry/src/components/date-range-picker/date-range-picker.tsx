@@ -7,7 +7,7 @@ import {
   DEFAULT_CUSTOM_PRESET_STORAGE_KEY,
   loadCustomPresets,
   saveCustomPresets
-} from "@calendar-kit/core";
+} from "@shadcn-calendar/core";
 import type { Locale } from "date-fns";
 import { format, isSameDay, isSameMonth, startOfMonth } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";

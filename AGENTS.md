@@ -210,7 +210,7 @@ Use a monorepo, but clearly separate **internal architecture** from **public dis
 ### Recommended structure
 
 ```txt
-calendar-kit/
+shadcn-calendar/
 ├─ apps/
 │  └─ docs/                     # Next.js docs, demos, showcase, install guide
 │
