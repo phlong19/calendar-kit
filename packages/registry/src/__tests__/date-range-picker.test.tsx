@@ -250,7 +250,7 @@ describe("DateRangePicker", () => {
     await user.click(screen.getByPlaceholderText("Select date range"));
 
     const scrollArea = screen.getByTestId("presets-scroll-area");
-    expect(scrollArea).toHaveClass("h-72");
+    expect(scrollArea).toHaveClass("h-75");
     expect(scrollArea).toHaveAttribute("data-scrollbar-visibility", "always");
 
     const verticalScrollbar = scrollArea.querySelector(
